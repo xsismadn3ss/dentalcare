@@ -66,10 +66,11 @@ public class PacienteServiceImpl implements PacienteService {
     public List<PacienteDto> filterPaciente(RequestPacienteDto payload) {
         return pacientes.stream().
                 filter(paciente ->
-                        (payload.getId() != paciente.getId() || payload.getId() == paciente.getId()) &&
-                                (payload.getNombre() == null || payload.getNombre().contains((paciente.getNombre()))) &&
-                                (payload.getApellido() == null || payload.getApellido().contains(paciente.getApellido())) &&
-                                (payload.getEmail()) == null || payload.getEmail().contains((paciente.getEmail()))).toList();
+                        (payload.getId() == 0 || payload.getId() == paciente.getId()) &&
+                                (payload.getNombre() == null || payload.getNombre().toLowerCase().contains((paciente.getNombre().toLowerCase()))) &&
+                                (payload.getApellido() == null || payload.getApellido().toLowerCase().contains(paciente.getApellido().toLowerCase())))
+                               // (payload.getEmail()) == null || payload.getEmail().contains((paciente.getEmail())))
+                .toList();
     }
 
     @Override
