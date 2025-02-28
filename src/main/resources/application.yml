@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: com.dentalcare.g5.main
+
+server:
+  port: 8505
+  base: api
+  version: v1
