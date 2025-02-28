@@ -75,7 +75,7 @@ public class CitaServiceImpl implements CitaService {
                     String motivo = (payload.getMotivo() != null) ? payload.getMotivo() : "";
 
                     return (id == 0 || id.equals(cita.getId())) &&
-                            (motivo.isEmpty() || cita.getMotivo().contains(motivo)) &&
+                            (motivo.isEmpty() || cita.getMotivo().toLowerCase().contains(motivo.toLowerCase())) &&
                             (doctorId == 0 || doctorId.equals(cita.getDoctorID())) &&
                             (pacienteId == 0 || pacienteId.equals(cita.getPacienteID()));
                 })
