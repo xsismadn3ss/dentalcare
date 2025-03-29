@@ -1,6 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
-import com.dentalcare.g5.main.dto.CitaDto;
+import com.dentalcare.g5.main.model.dto.CitaDto;
 import com.dentalcare.g5.main.payload.RequestCitaDto;
 import com.dentalcare.g5.main.service.CitaService;
 import org.springframework.http.ResponseEntity;

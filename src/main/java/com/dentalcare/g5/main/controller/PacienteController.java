@@ -1,6 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
-import com.dentalcare.g5.main.dto.PacienteDto;
+import com.dentalcare.g5.main.model.dto.PacienteDto;
 import com.dentalcare.g5.main.payload.RequestPacienteDto;
 import com.dentalcare.g5.main.service.PacienteService;
 import org.springframework.http.ResponseEntity;
