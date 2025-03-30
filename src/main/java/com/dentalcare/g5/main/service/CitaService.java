@@ -1,7 +1,7 @@
 package com.dentalcare.g5.main.service;
 
 
-import com.dentalcare.g5.main.dto.CitaDto;
+import com.dentalcare.g5.main.model.dto.CitaDto;
 import com.dentalcare.g5.main.payload.RequestCitaDto;
 
 import java.util.List;

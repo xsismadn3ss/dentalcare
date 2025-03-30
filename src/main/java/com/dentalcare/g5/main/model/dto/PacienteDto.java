@@ -1,4 +1,4 @@
-package com.dentalcare.g5.main.dto;
+package com.dentalcare.g5.main.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
