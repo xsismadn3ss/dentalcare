@@ -24,7 +24,7 @@ public class Doctor {
     @Column(unique = true)
     private String no_vigiliancia;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "especialidad_id", nullable = false)
     private Especialidad especialidad;
 

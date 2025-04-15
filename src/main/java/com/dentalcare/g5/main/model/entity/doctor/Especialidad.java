@@ -19,6 +19,6 @@ public class Especialidad {
     @Column(unique = true)
     private String name;
 
-    @OneToOne(mappedBy = "especialidad")
-    private Doctor doctor;
+    @OneToMany(mappedBy = "especialidad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Doctor doctores;
 }
