@@ -25,6 +25,6 @@ public class CitaDto {
     private DoctorDto doctor;
     private PacienteDto paciente;
     private List<NotaDto> notas;
-    private List<Tratamiento> tratamientos;
+    private List<TratamientoDto> tratamientos;
 }
 
