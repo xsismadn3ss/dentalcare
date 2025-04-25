@@ -224,7 +224,7 @@ public class PacienteServiceImpl implements PacienteService {
                     
                     return true;
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredPacientes.stream()
                 .map(pacienteMapper::toDto)
