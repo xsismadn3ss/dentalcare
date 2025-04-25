@@ -119,7 +119,7 @@ public class NotaServiceImpl implements NotaService {
         
         List<Nota> citaNotas = allNotas.stream()
                 .filter(nota -> nota.getCita() != null && nota.getCita().getId() == citaId)
-                .collect(Collectors.toList());
+                .toList();
                 
         return citaNotas.stream()
                 .map(notaMapper::toDto)
@@ -157,14 +157,10 @@ public class NotaServiceImpl implements NotaService {
                     }
                     
                     // Cita ID filter
-                    if (payload.getCitaId() != null && (nota.getCita() == null || 
-                            !payload.getCitaId().equals(nota.getCita().getId()))) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getCitaId() == null || (nota.getCita() != null &&
+                            payload.getCitaId().equals(nota.getCita().getId()));
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredNotas.stream()
                 .map(notaMapper::toDto)

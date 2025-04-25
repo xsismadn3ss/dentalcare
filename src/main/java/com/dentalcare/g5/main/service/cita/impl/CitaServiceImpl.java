@@ -165,11 +165,7 @@ public class CitaServiceImpl implements CitaService {
                     }
                     
                     // Paciente ID filter
-                    if (payload.getPacienteId() != null && !payload.getPacienteId().equals(cita.getPaciente().getId())) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getPacienteId() == null || payload.getPacienteId().equals(cita.getPaciente().getId());
                 })
                 .toList();
         

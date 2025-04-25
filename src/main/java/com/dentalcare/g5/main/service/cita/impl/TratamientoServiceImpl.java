@@ -22,16 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class TratamientoServiceImpl implements TratamientoService {
 
-    private final TratamientoRepository tratamientoRepository;
-    private final CitaRepository citaRepository;
     @Autowired
     private TratamientoRepository tratamientoRepository;
-    
     @Autowired
     private CitaRepository citaRepository;
-    
     @Autowired
     private TratamientoMapper tratamientoMapper;
+
+    /**
      * Creates a new tratamiento
      * @param payload The tratamiento creation request
      * @return The created tratamiento DTO
@@ -121,7 +119,7 @@ public class TratamientoServiceImpl implements TratamientoService {
         
         List<Tratamiento> citaTratamientos = allTratamientos.stream()
                 .filter(tratamiento -> tratamiento.getCita() != null && tratamiento.getCita().getId() == citaId)
-                .collect(Collectors.toList());
+                .toList();
                 
         return citaTratamientos.stream()
                 .map(tratamientoMapper::toDto)
@@ -158,14 +156,10 @@ public class TratamientoServiceImpl implements TratamientoService {
                     }
                     
                     // Cita ID filter
-                    if (payload.getCitaId() != null && (tratamiento.getCita() == null || 
-                            !payload.getCitaId().equals(tratamiento.getCita().getId()))) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getCitaId() == null || (tratamiento.getCita() != null &&
+                            payload.getCitaId().equals(tratamiento.getCita().getId()));
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredTratamientos.stream()
                 .map(tratamientoMapper::toDto)
