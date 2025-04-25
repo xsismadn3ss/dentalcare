@@ -26,10 +26,32 @@ public class EspecialidadServiceImpl implements EspecialidadService {
     private EspecialidadRepository especialidadRepository;
     
     @Autowired
+    private EspecialidadRepository especialidadRepository;
+    
+    @Autowired
     private EspecialidadMapper especialidadMapper;
+    
     /**
-     * Creates a new especialidad
-     * @param especialidadDto The especialidad data
+     * Validates the uniqueness of the especialidad name
+     * @param currentId The current especialidad ID (null for new especialidades)
+     * @param name The especialidad name to validate
+     */
+    private void validateUniqueName(Integer currentId, String name) {
+        if (name == null) {
+            return;
+        }
+        
+        List<Especialidad> existingEspecialidades = especialidadRepository.findAll();
+        
+        Optional<Especialidad> duplicateEspecialidad = existingEspecialidades.stream()
+                .filter(e -> e.getName().equalsIgnoreCase(name) 
+                    && (currentId == null || !currentId.equals(e.getId())))
+                .findFirst();
+                
+        if (duplicateEspecialidad.isPresent()) {
+            throw new RuntimeException("Especialidad with name '" + name + "' already exists");
+        }
+    }
      * @return The created especialidad DTO
      */
     @Override
@@ -120,20 +142,13 @@ public class EspecialidadServiceImpl implements EspecialidadService {
      * @return List of filtered especialidad DTOs
      */
     @Override
-    public List<EspecialidadDto> filterEspecialidades(EspecialidadFilterRequest payload) {
-        // In a real implementation, this would use JPA Specification or Criteria API
-        // For simplicity, we'll fetch all and filter in memory
-        List<Especialidad> allEspecialidades = especialidadRepository.findAll();
+    public EspecialidadDto updateEspecialidad(EspecialidadDto especialidadDto) {
+        // Find the especialidad by ID
+        Especialidad existingEspecialidad = especialidadRepository.findById(especialidadDto.getId())
+                .orElseThrow(() -> new RuntimeException("Especialidad not found with ID: " + especialidadDto.getId()));
         
-        List<Especialidad> filteredEspecialidades = allEspecialidades.stream()
-                .filter(especialidad -> {
-                    // ID filter
-                    if (payload.getId() != null && !payload.getId().equals(especialidad.getId())) {
-                        return false;
-                    }
-                    
-                    // Name filter
-                    if (payload.getName() != null && (especialidad.getName() == null || 
+        // Check if name already exists for another especialidad
+        validateUniqueName(especialidadDto.getId(), especialidadDto.getName());
                             !especialidad.getName().toLowerCase().contains(payload.getName().toLowerCase()))) {
                         return false;
                     }
@@ -152,15 +167,9 @@ public class EspecialidadServiceImpl implements EspecialidadService {
      * @param id The especialidad ID to delete
      */
     @Override
-    public void deleteEspecialidad(int id) {
-        if (!especialidadRepository.existsById(id)) {
-            throw new RuntimeException("Especialidad not found with ID: " + id);
-        }
-        
-        try {
-            especialidadRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Cannot delete especialidad because it has associated doctors", e);
+    public EspecialidadDto addEspecialidad(EspecialidadDto especialidadDto) {
+        // Check if name already exists
+        validateUniqueName(null, especialidadDto.getName());
         }
     }
 }

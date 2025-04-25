@@ -8,7 +8,6 @@ import com.dentalcare.g5.main.model.entity.usuario.RolPermiso;
 import com.dentalcare.g5.main.model.payload.usuario.RolPermisoFilterRequest;
 import com.dentalcare.g5.main.repository.usuario.PermisoRepository;
 import com.dentalcare.g5.main.repository.usuario.RolPerRepository;
-import com.dentalcare.g5.main.repository.usuario.RolPermisoRepository;
 import com.dentalcare.g5.main.repository.usuario.RolRepository;
 import com.dentalcare.g5.main.service.usuario.RolPermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,16 +200,28 @@ public class RolPermisoServiceImpl implements RolPermisoService {
         if (permisoId == null) {
             throw new RuntimeException("Permiso ID cannot be null");
         }
-        
+
         return permisoRepository.findById(permisoId)
                 .orElseThrow(() -> new RuntimeException("Permiso not found with ID: " + permisoId));
     }
-    
     /**
      * Validates the uniqueness of the rol-permiso pair
      * @param currentId The current rolPermiso ID (null for new relationships)
      * @param rolId The rol ID to validate
      * @param permisoId The permiso ID to validate
      */
+    private void validateUniquePair(Integer currentId, Integer rolId, Integer permisoId) {
+        List<RolPermiso> existingPairs = rolPermisoRepository.findAll();
+
+        Optional<RolPermiso> duplicatePair = existingPairs.stream()
+                .filter(rp -> rp.getRol().getId().equals(rolId)
+                        && rp.getPermiso().getId().equals(permisoId)
+                        && (currentId == null || !currentId.equals(rp.getId())))
+                .findFirst();
+
+        if (duplicatePair.isPresent()) {
+            throw new RuntimeException("A relationship between this rol and permiso already exists");
+        }
+    }
 }
 
