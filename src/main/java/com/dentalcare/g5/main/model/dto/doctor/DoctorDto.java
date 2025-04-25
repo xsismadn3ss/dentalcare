@@ -1,11 +1,10 @@
 package com.dentalcare.g5.main.model.dto.doctor;
 
 import com.dentalcare.g5.main.model.dto.cita.CitaDto;
-import com.dentalcare.g5.main.model.entity.usuario.Usuario;
+import com.dentalcare.g5.main.model.dto.usuario.UsuarioDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.id.IncrementGenerator;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class DoctorDto {
     private Integer id;
     private String no_vigilancia;
-    private EspacialidadDto especialidad;
-    private Usuario usuario;
+    private EspecialidadDto especialidad;
+    private UsuarioDto usuario;
     private List<CitaDto> citas;
 }
