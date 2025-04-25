@@ -2,7 +2,6 @@ package com.dentalcare.g5.main.service.usuario.impl;
 
 import com.dentalcare.g5.main.mapper.usuario.UsuarioMapper;
 import com.dentalcare.g5.main.model.dto.usuario.UsuarioDto;
-import com.dentalcare.g5.main.model.entity.usuario.Rol;
 import com.dentalcare.g5.main.model.entity.usuario.Usuario;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioCreateRequest;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioFilterRequest;
@@ -24,18 +23,12 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
-    private final RolRepository rolRepository;
-    private final UsuarioMapper usuarioMapper;
-
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
-                             RolRepository rolRepository,
-                             UsuarioMapper usuarioMapper) {
-        this.usuarioRepository = usuarioRepository;
-        this.rolRepository = rolRepository;
-        this.usuarioMapper = usuarioMapper;
-    }
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private RolRepository rolRepository;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
 
     /**
      * Creates a new usuario
@@ -46,7 +39,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public UsuarioDto addUsuario(UsuarioCreateRequest payload) {
         // Check for unique constraints: username, email, telefono
-        validateUniqueConstraints(null, payload.getUsername(), payload.getEmail(), payload.getTelefono());
+        validateUniqueConstraints(null, payload.getEmail(), payload.getTelefono());
         
         try {
             // Create new usuario entity
@@ -56,13 +49,13 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .email(payload.getEmail())
                     .telefono(payload.getTelefono())
                     // Assuming these fields exist in the entity based on UsuarioCreateRequest
-                    .username(payload.getUsername())
-                    .password(payload.getPassword()) // In production, this would be encrypted
+                    //.username(payload.getUsername())
+                    //.password(payload.getPassword()) // In production, this would be encrypted
                     .build();
             
             // By default, assign a basic role if available
-            Optional<Rol> defaultRol = rolRepository.findByNombre("USER");
-            defaultRol.ifPresent(usuario::setRol);
+            //Optional<Rol> defaultRol = rolRepository.findBy("USER");
+            //defaultRol.ifPresent(usuario::setRol);
             
             // Save the entity and return mapped DTO
             Usuario savedUsuario = usuarioRepository.save(usuario);
@@ -87,8 +80,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Check unique constraints but exclude current usuario
         // Assuming these fields exist in the entity
         validateUniqueConstraints(
-            usuarioDto.getId(), 
-            usuarioDto.getUsername(), 
+            usuarioDto.getId(),
             usuarioDto.getEmail(), 
             usuarioDto.getTelefono()
         );
@@ -100,19 +92,19 @@ public class UsuarioServiceImpl implements UsuarioService {
             existingUsuario.setEmail(usuarioDto.getEmail());
             existingUsuario.setTelefono(usuarioDto.getTelefono());
             // Assuming these fields exist in the entity
-            existingUsuario.setUsername(usuarioDto.getUsername());
+            //existingUsuario.setUsername(usuarioDto.getUsername());
             
             // Only update password if provided
-            if (usuarioDto.getPassword() != null && !usuarioDto.getPassword().isEmpty()) {
+            /*if (usuarioDto.getPassword() != null && !usuarioDto.getPassword().isEmpty()) {
                 existingUsuario.setPassword(usuarioDto.getPassword()); // In production, this would be encrypted
-            }
+            }*/
             
             // Update role if provided
-            if (usuarioDto.getRol() != null && usuarioDto.getRol().getId() != null) {
+            /*if (usuarioDto.getRol() != null && usuarioDto.getRol().getId() != null) {
                 Rol rol = rolRepository.findById(usuarioDto.getRol().getId())
                         .orElseThrow(() -> new RuntimeException("Rol not found with ID: " + usuarioDto.getRol().getId()));
                 existingUsuario.setRol(rol);
-            }
+            }*/
             
             // Save updated entity and return mapped DTO
             Usuario updatedUsuario = usuarioRepository.save(existingUsuario);
@@ -189,14 +181,10 @@ public class UsuarioServiceImpl implements UsuarioService {
                     }
                     
                     // Rol ID filter
-                    if (payload.getRolId() != null && (usuario.getRol() == null || 
-                            !payload.getRolId().equals(usuario.getRol().getId()))) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getRolId() == null || (usuario.getRol() != null &&
+                            payload.getRolId().equals(usuario.getRol().getId()));
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredUsuarios.stream()
                 .map(usuarioMapper::toDto)
@@ -228,7 +216,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     /**
      * Validates unique constraints for usuario fields
      */
-    private void validateUniqueConstraints(Integer currentId, String username, String email, String telefono) {
+    private void validateUniqueConstraints(Integer currentId, String email, String telefono) {
         List<Usuario> existingUsuarios = usuarioRepository.findAll();
         
         // Check email uniqueness
@@ -256,7 +244,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         
         // Check username uniqueness
-        if (username != null) {
+        /*if (username != null) {
             Optional<Usuario> usernameExists = existingUsuarios.stream()
                     .filter(u -> username.equalsIgnoreCase(u.getUsername()) && 
                             (currentId == null || !currentId.equals(u.getId())))
@@ -265,16 +253,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             if (usernameExists.isPresent()) {
                 throw new RuntimeException("Username '" + username + "' is already in use");
             }
-        }
+        }*/
     }
-    
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private RolRepository rolRepository;
-    
-    @Autowired
-    private UsuarioMapper usuarioMapper;
 }
 

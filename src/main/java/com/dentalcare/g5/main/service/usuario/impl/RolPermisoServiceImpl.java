@@ -145,14 +145,14 @@ public class RolPermisoServiceImpl implements RolPermisoService {
                     }
                     
                     // Permiso ID filter
-                    if (payload.getPermisoId() != null && 
-                            (rolPermiso.getPermiso() == null || !payload.getPermisoId().equals(rolPermiso.getPermiso().getId()))) {
-                        return false;
+                    if (payload.getPermisoId() == null ||
+                            (rolPermiso.getPermiso() != null && payload.getPermisoId().equals(rolPermiso.getPermiso().getId()))) {
+                        return true;
                     }
-                    
-                    return true;
+                    return false;
+
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredRolPermisos.stream()
                 .map(rolPermisoMapper::toDto)

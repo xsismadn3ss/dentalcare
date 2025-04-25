@@ -127,14 +127,10 @@ public class RolServiceImpl implements RolService {
                     }
                     
                     // Nombre filter
-                    if (payload.getNombre() != null && (rol.getNombre() == null || 
-                            !rol.getNombre().toLowerCase().contains(payload.getNombre().toLowerCase()))) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getNombre() == null || (rol.getNombre() != null &&
+                            rol.getNombre().toLowerCase().contains(payload.getNombre().toLowerCase()));
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredRoles.stream()
                 .map(rolMapper::toDto)

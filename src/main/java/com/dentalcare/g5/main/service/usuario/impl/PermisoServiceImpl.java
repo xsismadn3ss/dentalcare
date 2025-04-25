@@ -147,14 +147,10 @@ public class PermisoServiceImpl implements PermisoService {
                     }
                     
                     // Activo filter
-                    if (payload.getActivo() != null && 
-                            (permiso.getActivo() == null || !payload.getActivo().equals(permiso.getActivo()))) {
-                        return false;
-                    }
-                    
-                    return true;
+                    return payload.getActivo() == null ||
+                            (permiso.getActivo() != null && payload.getActivo().equals(permiso.getActivo()));
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredPermisos.stream()
                 .map(permisoMapper::toDto)
