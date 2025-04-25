@@ -15,13 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CitaDto {
-    private Integer Id;
-    private Integer PacienteID;
-    private Integer DoctorID;
-    private LocalDate Fecha;
-    private Time Hora;
-    private String Estado;
-    private String Motivo;
+    private Integer id;
+    private LocalDate fecha;
+    private Time hora;
+    private String motivo;
     private DoctorDto doctor;
     private PacienteDto paciente;
     private List<NotaDto> notas;

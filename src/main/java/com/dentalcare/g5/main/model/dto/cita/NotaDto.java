@@ -12,6 +12,5 @@ public class NotaDto {
     private Integer id;
     private  String titulo;
     private String descripcion;
-    private Integer cita_id;
     private  CitaDto cita;
 }
