@@ -198,19 +198,13 @@ public class DoctorServiceImpl implements DoctorService {
                         }
                         
                         // Teléfono filter
-                        if (payload.getTelefono() != null && 
-                                (doctor.getUsuario().getTelefono() == null || 
-                                 !doctor.getUsuario().getTelefono().toLowerCase().contains(payload.getTelefono().toLowerCase()))) {
-                            return false;
-                        }
-                    } else if (payload.getNombre() != null || payload.getApellido() != null || 
-                               payload.getEmail() != null || payload.getTelefono() != null) {
-                        return false;
-                    }
-                    
-                    return true;
+                        return payload.getTelefono() == null ||
+                                (doctor.getUsuario().getTelefono() != null &&
+                                        doctor.getUsuario().getTelefono().toLowerCase().contains(payload.getTelefono().toLowerCase()));
+                    } else return payload.getNombre() == null && payload.getApellido() == null &&
+                            payload.getEmail() == null && payload.getTelefono() == null;
                 })
-                .collect(Collectors.toList());
+                .toList();
         
         return filteredDoctors.stream()
                 .map(doctorMapper::toDto)
