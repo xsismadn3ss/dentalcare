@@ -21,20 +21,14 @@ import java.util.stream.Collectors;
  */
 @Service
 public class NotaServiceImpl implements NotaService {
-
-    private final NotaRepository notaRepository;
-    private final CitaRepository citaRepository;
-    private final NotaMapper notaMapper;
-
     @Autowired
-    public NotaServiceImpl(NotaRepository notaRepository, 
-                          CitaRepository citaRepository, 
-                          NotaMapper notaMapper) {
-        this.notaRepository = notaRepository;
-        this.citaRepository = citaRepository;
-        this.notaMapper = notaMapper;
-    }
-
+    private NotaRepository notaRepository;
+    
+    @Autowired
+    private CitaRepository citaRepository;
+    
+    @Autowired
+    private NotaMapper notaMapper;
     /**
      * Creates a new note
      * @param payload The note creation request

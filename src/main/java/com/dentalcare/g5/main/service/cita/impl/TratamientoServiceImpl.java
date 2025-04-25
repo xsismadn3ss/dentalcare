@@ -24,18 +24,14 @@ public class TratamientoServiceImpl implements TratamientoService {
 
     private final TratamientoRepository tratamientoRepository;
     private final CitaRepository citaRepository;
-    private final TratamientoMapper tratamientoMapper;
-
     @Autowired
-    public TratamientoServiceImpl(TratamientoRepository tratamientoRepository,
-                                CitaRepository citaRepository,
-                                TratamientoMapper tratamientoMapper) {
-        this.tratamientoRepository = tratamientoRepository;
-        this.citaRepository = citaRepository;
-        this.tratamientoMapper = tratamientoMapper;
-    }
-
-    /**
+    private TratamientoRepository tratamientoRepository;
+    
+    @Autowired
+    private CitaRepository citaRepository;
+    
+    @Autowired
+    private TratamientoMapper tratamientoMapper;
      * Creates a new tratamiento
      * @param payload The tratamiento creation request
      * @return The created tratamiento DTO

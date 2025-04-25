@@ -190,14 +190,11 @@ public class PermisoServiceImpl implements PermisoService {
      * @param currentId The current permiso ID (null for new permisos)
      * @param nombre The permiso name to validate
      */
-    private void validateUniqueName(Integer currentId, String nombre) {
-        if (nombre == null) {
-            return;
-        }
-        
-        Optional<Permiso> existingPermiso = permisoRepository.findByNombre(nombre);
-        
-        if (existingPermiso.isPresent() && (currentId == null || !currentId.equals(existingPermiso.get().getId()))) {
+    @Autowired
+    private PermisoRepository permisoRepository;
+    
+    @Autowired
+    private PermisoMapper permisoMapper;
             throw new RuntimeException("Permiso with name '" + nombre + "' already exists");
         }
     }

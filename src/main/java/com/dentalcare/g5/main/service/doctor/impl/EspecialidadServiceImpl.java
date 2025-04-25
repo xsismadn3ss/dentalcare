@@ -22,15 +22,11 @@ import java.util.stream.Collectors;
 public class EspecialidadServiceImpl implements EspecialidadService {
 
     private final EspecialidadRepository especialidadRepository;
-    private final EspecialidadMapper especialidadMapper;
-
     @Autowired
-    public EspecialidadServiceImpl(EspecialidadRepository especialidadRepository,
-                                  EspecialidadMapper especialidadMapper) {
-        this.especialidadRepository = especialidadRepository;
-        this.especialidadMapper = especialidadMapper;
-    }
-
+    private EspecialidadRepository especialidadRepository;
+    
+    @Autowired
+    private EspecialidadMapper especialidadMapper;
     /**
      * Creates a new especialidad
      * @param especialidadDto The especialidad data

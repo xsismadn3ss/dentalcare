@@ -228,18 +228,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     /**
      * Validates unique constraints for usuario fields
      */
-    private void validateUniqueConstraints(Integer currentId, String username, String email, String telefono) {
-        List<Usuario> existingUsuarios = usuarioRepository.findAll();
-        
-        // Check email uniqueness
-        if (email != null) {
-            Optional<Usuario> emailExists = existingUsuarios.stream()
-                    .filter(u -> email.equalsIgnoreCase(u.getEmail()) && 
-                            (currentId == null || !currentId.equals(u.getId())))
-                    .findFirst();
-            
-            if (emailExists.isPresent()) {
-                throw new RuntimeException("Email '" + email + "' is already in use");
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private RolRepository rolRepository;
+    
+    @Autowired
+    private UsuarioMapper usuarioMapper;
             }
         }
         

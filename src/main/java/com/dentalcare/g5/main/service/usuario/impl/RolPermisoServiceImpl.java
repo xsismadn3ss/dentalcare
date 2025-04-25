@@ -7,6 +7,7 @@ import com.dentalcare.g5.main.model.entity.usuario.Rol;
 import com.dentalcare.g5.main.model.entity.usuario.RolPermiso;
 import com.dentalcare.g5.main.model.payload.usuario.RolPermisoFilterRequest;
 import com.dentalcare.g5.main.repository.usuario.PermisoRepository;
+import com.dentalcare.g5.main.repository.usuario.RolPerRepository;
 import com.dentalcare.g5.main.repository.usuario.RolPermisoRepository;
 import com.dentalcare.g5.main.repository.usuario.RolRepository;
 import com.dentalcare.g5.main.service.usuario.RolPermisoService;
@@ -25,21 +26,14 @@ import java.util.stream.Collectors;
 @Service
 public class RolPermisoServiceImpl implements RolPermisoService {
 
-    private final RolPermisoRepository rolPermisoRepository;
-    private final RolRepository rolRepository;
-    private final PermisoRepository permisoRepository;
-    private final RolPermisoMapper rolPermisoMapper;
-
     @Autowired
-    public RolPermisoServiceImpl(RolPermisoRepository rolPermisoRepository,
-                                RolRepository rolRepository,
-                                PermisoRepository permisoRepository,
-                                RolPermisoMapper rolPermisoMapper) {
-        this.rolPermisoRepository = rolPermisoRepository;
-        this.rolRepository = rolRepository;
-        this.permisoRepository = permisoRepository;
-        this.rolPermisoMapper = rolPermisoMapper;
-    }
+    private RolPerRepository rolPermisoRepository;
+    @Autowired
+    private RolRepository rolRepository;
+    @Autowired
+    private PermisoRepository permisoRepository;
+    @Autowired
+    private RolPermisoMapper rolPermisoMapper;
 
     /**
      * Creates a new rol-permiso relationship
@@ -218,21 +212,5 @@ public class RolPermisoServiceImpl implements RolPermisoService {
      * @param rolId The rol ID to validate
      * @param permisoId The permiso ID to validate
      */
-    private void validateUniquePair(Integer currentId, Integer rolId, Integer permisoId) {
-        List<RolPermiso> existingPairs = rolPermisoRepository.findAll()
-                .stream()
-                .filter(rp -> rp.getRol().getId().equals(rolId) && rp.getPermiso().getId().equals(permisoId))
-                .collect(Collectors.toList());
-        
-        if (!existingPairs.isEmpty()) {
-            // If this is a new entry or we found a different entry with the same rol-permiso pair
-            boolean isDuplicate = currentId == null || 
-                    existingPairs.stream().anyMatch(rp -> !rp.getId().equals(currentId));
-            
-            if (isDuplicate) {
-                throw new RuntimeException("Role with ID " + rolId + " already has permission with ID " + permisoId);
-            }
-        }
-    }
 }
 

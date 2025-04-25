@@ -27,29 +27,18 @@ import java.util.stream.Collectors;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
-    private final DoctorRepository doctorRepository;
-    private final EspecialidadRepository especialidadRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final UsuarioService usuarioService;
-    private final DoctorMapper doctorMapper;
-
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository,
-                            EspecialidadRepository especialidadRepository,
-                            UsuarioRepository usuarioRepository,
-                            UsuarioService usuarioService,
-                            DoctorMapper doctorMapper) {
-        this.doctorRepository = doctorRepository;
-        this.especialidadRepository = especialidadRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.usuarioService = usuarioService;
-        this.doctorMapper = doctorMapper;
-    }
-
-    /**
-     * Creates a new doctor
-     * @param payload The doctor creation request
-     * @return The created doctor DTO
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private EspecialidadRepository especialidadRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private DoctorMapper doctorMapper;
+     /**
+      * @return The created doctor DTO
      */
     @Override
     @Transactional
@@ -59,8 +48,8 @@ public class DoctorServiceImpl implements DoctorService {
         usuario.setNombre(payload.getNombre());
         usuario.setApellido(payload.getApellido());
         usuario.setEmail(payload.getUsuario().getEmail());
-        usuario.setUsername(payload.getUsuario().getUsername());
-        usuario.setPassword(payload.getUsuario().getPassword()); // In production, this would be encrypted
+        //usuario.setUsername(payload.getUsuario().getUsername());
+        //usuario.setPassword(payload.getUsuario().getPassword()); // In production, this would be encrypted
         usuario.setTelefono(payload.getTelefono());
         
         Usuario savedUsuario = usuarioRepository.save(usuario);

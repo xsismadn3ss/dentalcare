@@ -175,14 +175,11 @@ public class RolServiceImpl implements RolService {
      * @param currentId The current rol ID (null for new roles)
      * @param nombre The rol name to validate
      */
-    private void validateUniqueName(Integer currentId, String nombre) {
-        if (nombre == null) {
-            return;
-        }
-        
-        Optional<Rol> existingRol = rolRepository.findByNombre(nombre);
-        
-        if (existingRol.isPresent() && (currentId == null || !currentId.equals(existingRol.get().getId()))) {
+    @Autowired
+    private RolRepository rolRepository;
+    
+    @Autowired
+    private RolMapper rolMapper;
             throw new RuntimeException("Rol with name '" + nombre + "' already exists");
         }
     }

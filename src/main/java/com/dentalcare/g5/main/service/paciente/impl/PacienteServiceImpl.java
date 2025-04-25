@@ -24,20 +24,14 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PacienteServiceImpl implements PacienteService {
-
-    private final PacienteRepository pacienteRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final PacienteMapper pacienteMapper;
-
     @Autowired
-    public PacienteServiceImpl(PacienteRepository pacienteRepository,
-                              UsuarioRepository usuarioRepository,
-                              PacienteMapper pacienteMapper) {
-        this.pacienteRepository = pacienteRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.pacienteMapper = pacienteMapper;
-    }
-
+    private PacienteRepository pacienteRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private PacienteMapper pacienteMapper;
     /**
      * Creates a new paciente
      * @param pacienteDto The paciente DTO to create
@@ -63,12 +57,12 @@ public class PacienteServiceImpl implements PacienteService {
                 usuario.setEmail(pacienteDto.getUsuario().getEmail());
                 usuario.setTelefono(pacienteDto.getUsuario().getTelefono());
                 // Assuming these fields exist in the entity
-                if (pacienteDto.getUsuario().getUsername() != null) {
+                /*if (pacienteDto.getUsuario().getUsername() != null) {
                     usuario.setUsername(pacienteDto.getUsuario().getUsername());
                 }
                 if (pacienteDto.getUsuario().getPassword() != null) {
                     usuario.setPassword(pacienteDto.getUsuario().getPassword());
-                }
+                }*/
                 usuario = usuarioRepository.save(usuario);
             } else {
                 throw new RuntimeException("Usuario information is required to create a paciente");
