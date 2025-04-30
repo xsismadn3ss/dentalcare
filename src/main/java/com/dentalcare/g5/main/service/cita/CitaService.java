@@ -8,11 +8,12 @@ import com.dentalcare.g5.main.model.payload.cita.CitaFilterRequest;
 import com.dentalcare.g5.main.model.payload.cita.CitaUpdateRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CitaService {
     CitaDto addCita(CitaCreateRequest payload);
     CitaDto updateCita(CitaUpdateRequest payload);
-    CitaDto getCitaById(int id);
+    Optional<CitaDto> getCitaById(int id);
     List<CitaDto> getAllCitas();
     List<CitaDto> filterCitas(CitaFilterRequest payload);
     void deleteCita(int id);
