@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {TratamientoMapper.class, NotaMapper.class, PacienteMapper.class, DoctorMapper.class})
 public interface CitaMapper {
-    @Mapping(target = "doctor.citas", ignore = true)
-    @Mapping(target = "paciente.citas", ignore = true)
+    @Mapping(target = "doctor.usuario", ignore = true)
+    @Mapping(target = "doctor.especialidad", ignore = true)
+    @Mapping(target = "paciente.usuario", ignore = true)
     @Mapping(target = "tratamientos", qualifiedByName = "mapTratamientoWhitoutCitas")
     @Mapping(target = "notas", qualifiedByName = "mapNotasWithoutCitas")
     CitaDto toDto(Cita cita);
