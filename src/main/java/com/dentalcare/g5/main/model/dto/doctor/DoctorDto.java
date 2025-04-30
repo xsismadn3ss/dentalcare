@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class DoctorDto {
     private Integer id;
-    private String no_vigilancia;
     private EspecialidadDto especialidad;
     private UsuarioDto usuario;
     private List<CitaDto> citas;
