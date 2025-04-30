@@ -12,6 +12,6 @@ import java.util.List;
 public class RolDto {
     private Integer id;
     private String nombre;
-    private List<RolPermisoDto> rolpermisos;
+    private List<RolPermisoDto> rolPermisos;
     private UsuarioDto usuario;
 }
