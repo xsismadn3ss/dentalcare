@@ -9,25 +9,24 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {DoctorMapper.class})
 public interface EspecialidadMapper {
 
-    @Mapping(target = "doctores", qualifiedByName = "mapDoctorsWhitoutEspecialidad")
+    @Mapping(target = "doctores", ignore = true)
     EspecialidadDto toDto(Especialidad especialidad);
+
+    @Mapping(target = "doctores", ignore = true)
     Especialidad toEntity(EspecialidadDto especialidadDto);
 
-    @Named("mapDoctorsWhitoutEspecialidad")
-    static List<DoctorDto> mapDoctorsWhitoutEspecialidad(List<Doctor> doctors){
+    @Named("mapDoctorsSimple")
+    static List<DoctorDto> mapDoctorsSimple(List<Doctor> doctors){
         return doctors.stream()
                 .map(doctor -> new DoctorDto(
                         doctor.getId(),
-                        doctor.getNo_vigiliancia(),
                         null,
                         null,
                         null
-                ))
-                .collect(Collectors.toList());
+                )).toList();
     }
 }

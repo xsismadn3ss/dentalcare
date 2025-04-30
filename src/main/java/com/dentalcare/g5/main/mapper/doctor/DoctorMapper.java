@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", uses = {EspecialidadMapper.class, UsuarioMapper.class})
 public interface DoctorMapper {
     @Mapping(target = "usuario.doctor", ignore = true)
-    @Mapping(target = "especialidad.doctor", ignore = true)
+    @Mapping(target = "especialidad.doctores", ignore = true)
     @Mapping(target = "citas", qualifiedByName = "mapCitasSimple")
     DoctorDto toDto(Doctor doctor);
 
