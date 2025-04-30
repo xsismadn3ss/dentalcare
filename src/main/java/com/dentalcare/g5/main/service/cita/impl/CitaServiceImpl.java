@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -93,16 +94,17 @@ public class CitaServiceImpl implements CitaService {
         return citaMapper.toDto(updatedCita);
     }
 
+
+
     /**
      * Retrieves a cita by ID
      * @param id The cita ID
      * @return The cita DTO
      */
     @Override
-    public CitaDto getCitaById(int id) {
-        Cita cita = citaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita not found with ID: " + id));
-        return citaMapper.toDto(cita);
+    public Optional<CitaDto> getCitaById(int id) {
+        Optional<Cita> cita = citaRepository.findById(id);
+        return cita.map(citaMapper::toDto);
     }
 
     /**
