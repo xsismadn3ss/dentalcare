@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: com.dentalcare.g5.main
   datasource:
