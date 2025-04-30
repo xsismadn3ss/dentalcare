@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EspacialidadDto {
+public class EspecialidadDto {
     private  Integer id;
     private  String name;
     private List<DoctorDto> doctores;

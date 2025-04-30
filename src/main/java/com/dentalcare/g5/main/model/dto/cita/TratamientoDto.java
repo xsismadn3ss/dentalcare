@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TratamientoDto {
     private Integer id;
-    private String Nombre;
+    private String nombre;
     private boolean pendiente;
-    private  Integer cita_id;
     private CitaDto cita;
 }

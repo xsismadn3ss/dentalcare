@@ -16,7 +16,7 @@ public class Tratamiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String Nombre;
+    private String nombre;
     private Boolean pendiente;
 
     @ManyToOne
