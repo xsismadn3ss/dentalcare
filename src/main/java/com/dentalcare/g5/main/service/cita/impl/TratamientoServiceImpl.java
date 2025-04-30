@@ -42,7 +42,7 @@ public class TratamientoServiceImpl implements TratamientoService {
         
         // Create new tratamiento entity
         Tratamiento tratamiento = Tratamiento.builder()
-                .Nombre(payload.getNombre())
+                .nombre(payload.getNombre())
                 .pendiente(payload.getPendiente() != null ? payload.getPendiente() : true)
                 .cita(cita)
                 .build();
