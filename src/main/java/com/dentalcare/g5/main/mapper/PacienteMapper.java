@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 public interface PacienteMapper {
     @Mapping(target = "usuario.paciente", ignore = true)
     @Mapping(target = "usuario.doctor", ignore = true)
-    @Mapping(target = "citas", qualifiedByName = "mapCitasSimple")
+    @Mapping(target = "citas", qualifiedByName = "mapPacienteCitasSimple")  // Cambiado el nombre aquí
     PacienteDto toDto(Paciente paciente);
 
     Paciente toEntity(PacienteDto pacienteDto);
 
-    @Named("mapCitasSimple")
-    static List<CitaDto> mapCitasSimple(List<Cita> citas) {
+    @Named("mapPacienteCitasSimple")  // Nombre único para este mapper
+    static List<CitaDto> mapPacienteCitasSimple(List<Cita> citas) {
         return citas.stream()
                 .map(cita -> new CitaDto(
                         cita.getId(),
