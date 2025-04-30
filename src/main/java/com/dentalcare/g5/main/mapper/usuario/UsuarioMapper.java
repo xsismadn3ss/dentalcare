@@ -14,6 +14,7 @@ import org.mapstruct.Named;
 public interface UsuarioMapper {
     @Mapping(target = "paciente.usuario", ignore = true)
     @Mapping(target = "doctor.usuario", ignore = true)
+    @Mapping(target = "doctor.especialidad.doctores", ignore = true)
     UsuarioDto toDto(Usuario usuario);
     Usuario toEntity(UsuarioDto usuarioDto);
 

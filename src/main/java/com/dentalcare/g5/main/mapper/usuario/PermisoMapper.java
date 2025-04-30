@@ -12,14 +12,14 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RolPermisoMapper.class})
 public interface PermisoMapper {
-    @Mapping(target = "rolpermisos", qualifiedByName = "MapRolPermisoWithoutPermiso")
+    @Mapping(target = "rolPermisos", qualifiedByName = "mapRolPermisoWithoutPermiso")
     PermisoDto toDto(Permiso permiso);
     Permiso toEntity(PermisoDto permisoDto);
 
-    @Named("MapRolPermisoWithoutPermiso")
-    static List<RolPermisoDto> MapRolPermisoWithoutPermiso(List<RolPermiso> rolPermisos){
+    @Named("mapRolPermisoWithoutPermiso")
+    static List<RolPermisoDto> mapRolPermisoWithoutPermiso(List<RolPermiso> rolPermisos){
         return rolPermisos.stream()
                 .map(rolPermiso -> new RolPermisoDto(
                         rolPermiso.getId(),

@@ -12,9 +12,9 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {UsuarioMapper.class})
+@Mapper(componentModel = "spring", uses = {UsuarioMapper.class, RolPermisoMapper.class})
 public interface RolMapper {
-    @Mapping(target = "rolpermisos", qualifiedByName = "mapRolPermisoWhitoutRol")
+    @Mapping(target = "rolPermisos", qualifiedByName = "mapRolPermisoWhitoutRol")
     @Mapping(target = "usuario.rol", ignore = true)
     @Mapping(target = "usuario.paciente", ignore = true)
     @Mapping(target = "usuario.doctor", ignore = true)
