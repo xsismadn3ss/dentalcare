@@ -12,5 +12,5 @@ public class NotaDto {
     private Integer id;
     private  String titulo;
     private String descripcion;
-    private  CitaDto cita;
+    // private  CitaDto cita;  (REDUNDANCIA)
 }
