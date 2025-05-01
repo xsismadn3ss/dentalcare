@@ -14,5 +14,5 @@ public class PermisoDto {
     private String nombre;
     private String descripcion;
     private Boolean activo;
-    private List<RolPermisoDto> rolPermisos;
+    //  private List<RolPermisoDto> rolPermisos;    (REDUNDANCIA)
 }
