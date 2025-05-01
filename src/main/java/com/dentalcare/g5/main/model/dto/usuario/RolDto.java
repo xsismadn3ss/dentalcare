@@ -10,8 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RolDto {
-    private Integer id;
-    private String nombre;
-    private List<RolPermisoDto> rolPermisos;
-    private UsuarioDto usuario;
+private Integer id;
+private String nombre;
+// private List<RolPermisoDto> rolPermisos;     ( para evitar dependencias cíclicas)
+// private UsuarioDto usuario;    (usuario ya tiene una referencia al rol)
 }
