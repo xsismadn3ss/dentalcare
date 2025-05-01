@@ -17,5 +17,5 @@ public class PacienteDto {
     private Integer id;
     private LocalDate fechaRegistro;
     private UsuarioDto usuario;
-    private List<CitaDto> citas;
+    // private List<CitaDto> citas;    (REDUNDANCIA)
 }
