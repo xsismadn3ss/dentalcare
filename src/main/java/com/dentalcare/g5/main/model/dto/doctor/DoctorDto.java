@@ -15,5 +15,5 @@ public class DoctorDto {
     private Integer id;
     private EspecialidadDto especialidad;
     private UsuarioDto usuario;
-    private List<CitaDto> citas;
+    // private List<CitaDto> citas;    (REDUNDANCIA)
 }
