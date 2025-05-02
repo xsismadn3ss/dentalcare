@@ -17,7 +17,7 @@ public interface NotaService {
     List<NotaDto> getAllNotas();
     List<NotaDto> filterNotas(NotaFilterRequest payload);
     void deleteNota(int id);
-    List<NotaDto> getNotasByCitaId(int citaId);
+    //List<NotaDto> getNotasByCitaId(int citaId);
 }
 
 
