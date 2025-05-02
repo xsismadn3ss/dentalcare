@@ -6,6 +6,7 @@ import com.dentalcare.g5.main.model.dto.usuario.RolDto;
 import com.dentalcare.g5.main.model.dto.usuario.UsuarioDto;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioCreateRequest;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioFilterRequest;
+import com.dentalcare.g5.main.model.payload.usuario.UsuarioUpdateRequest;
 
 import java.util.List;
 
