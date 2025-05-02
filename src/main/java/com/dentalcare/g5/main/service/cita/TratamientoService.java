@@ -17,7 +17,7 @@ public interface TratamientoService {
     List<TratamientoDto> getAllTratamientos();
     List<TratamientoDto> filterTratamientos(TratamientoFilterRequest payload);
     void deleteTratamiento(int id);
-    List<TratamientoDto> getTratamientosByCitaId(int citaId);
+    //List<TratamientoDto> getTratamientosByCitaId(int citaId);
 }
 
 
