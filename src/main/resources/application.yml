@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: com.dentalcare.g5.main
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: ${PORT}
+  base: g5/api
+  version: v1
