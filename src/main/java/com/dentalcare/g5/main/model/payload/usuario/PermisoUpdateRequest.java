@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermisoCreateRequest {
+public class PermisoUpdateRequest {
     private String nombre;
     private String descripcion;
+    private Boolean activo;
 }

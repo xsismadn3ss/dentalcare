@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RolPermisoFilterRequest {
     private Integer id;
-    private Integer rolId;
+    private Integer rol_id;
     private Integer permiso_id;
 }
 
