@@ -23,7 +23,7 @@ public class CitaFilterRequest {
     private Time horaDesde;
     private Time horaHasta;
     private String motivo;
-    private Integer doctorId;
-    private Integer pacienteId;
+    private Integer doctor_id;
+    private Integer paciente_id;
 }
 

@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 public class RolPermisoFilterRequest {
     private Integer id;
     private Integer rolId;
-    private Integer permisoId;
+    private Integer permiso_id;
 }
 

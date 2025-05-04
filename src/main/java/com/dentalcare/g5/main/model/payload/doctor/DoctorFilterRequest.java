@@ -15,9 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DoctorFilterRequest {
     private Integer id;
-    private String noVigilancia;
-    private Integer especialidadId;
-    private Integer usuarioId;
+    private Integer especialidad_id;
+    private Integer usuario_id;
     
     // For filtering by usuario attributes
     private String nombre;

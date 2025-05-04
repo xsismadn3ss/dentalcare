@@ -17,6 +17,6 @@ public class NotaFilterRequest {
     private Integer id;
     private String titulo;
     private String descripcion;
-    private Integer citaId;
+    private Integer cita_id;
 }
 

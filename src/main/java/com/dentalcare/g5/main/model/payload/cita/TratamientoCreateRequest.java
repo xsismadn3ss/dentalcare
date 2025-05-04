@@ -16,6 +16,6 @@ public class TratamientoCreateRequest {
     private Boolean pendiente = true;
     
     @NotNull(message = "El ID de la cita es obligatorio")
-    private Integer citaId;
+    private Integer cita_id;
 }
 
