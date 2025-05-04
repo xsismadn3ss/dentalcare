@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RolPermisoDto {
     private  Integer id;
-    private PermisoDto permiso;
-    private RolDto rol;
+    private Integer permiso_id;
+    private Integer rol_id;
 }

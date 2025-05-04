@@ -15,7 +15,5 @@ public class UsuarioDto {
     private String apellido;
     private String email;
     private String telefono;
-    private RolDto rol;
-    // private PacienteDto paciente;
-    // private DoctorDto doctor;      (para prevenir ciclos de referencia al serializar)
+    private String username;
 }
