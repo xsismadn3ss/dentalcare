@@ -16,6 +16,6 @@ import java.util.List;
 public class PacienteDto {
     private Integer id;
     private LocalDate fechaRegistro;
-    private UsuarioDto usuario;
-    // private List<CitaDto> citas;    (REDUNDANCIA)
+    private Integer usuario_id;
 }
+
