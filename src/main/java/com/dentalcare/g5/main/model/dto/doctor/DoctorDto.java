@@ -14,6 +14,6 @@ import java.util.List;
 public class DoctorDto {
     private Integer id;
     private EspecialidadDto especialidad;
-    private UsuarioDto usuario;
-    // private List<CitaDto> citas;    (REDUNDANCIA)
+    private Integer usuario_id;
+    private Integer especialidad_dto;
 }
