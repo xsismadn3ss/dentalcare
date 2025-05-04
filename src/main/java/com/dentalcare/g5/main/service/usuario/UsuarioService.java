@@ -15,10 +15,10 @@ import java.util.List;
  */
 public interface UsuarioService {
     UsuarioDto addUser(UsuarioCreateRequest payload);
-    UsuarioDto updateUser(UsuarioUpdateRequest payload);
+    UsuarioDto updateUser(UsuarioUpdateRequest payload, Integer id);
     UsuarioDto getUserById(int id);
     List<UsuarioDto> getAllUsers();
-    List<UsuarioDto> filterUsers(UsuarioFilterRequest payload);
+    List<UsuarioDto> filterUsers(UsuarioFilterRequest payload, Integer id);
     void deleteUser(int id);
     PacienteDto joinPaciente(int id);
     DoctorDto joinDoctor(int id);
