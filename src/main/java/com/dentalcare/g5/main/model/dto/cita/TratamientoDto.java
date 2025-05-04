@@ -11,5 +11,5 @@ public class TratamientoDto {
     private Integer id;
     private String nombre;
     private boolean pendiente;
-   // private CitaDto cita;  (REDUNDANCIA)
+    private Integer cita_id;
 }
