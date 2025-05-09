@@ -8,9 +8,11 @@ import com.dentalcare.g5.main.model.payload.usuario.RolPermisoFilterRequest;
 import com.dentalcare.g5.main.repository.usuario.RolPerRepository;
 import com.dentalcare.g5.main.service.usuario.RolPermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RolPermisoServiceImpl implements RolPermisoService {
     @Autowired
     private RolPerRepository rolPerRepository;

@@ -17,7 +17,7 @@ public interface DoctorService {
     DoctorDto updateDoctor(DoctorUpdateRequest payload);
     DoctorDto getDoctorById(int id);
     List<DoctorDto> getAllDoctors();
-    List<DoctorDto> filterDoctors(DoctorFilterRequest payload);
+    List<DoctorDto> filterDoctors(DoctorFilterRequest payload, int id);
     void deleteDoctor(int id);
     EspecialidadDto joinEspecialidad(int id);
     List<CitaDto> joinCitas(int id);

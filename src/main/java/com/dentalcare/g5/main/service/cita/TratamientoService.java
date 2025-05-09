@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface TratamientoService {
     TratamientoDto addTratamiento(TratamientoCreateRequest payload);
-    TratamientoDto updateTratamiento(TratamientoUpdateRequest payload);
+    TratamientoDto updateTratamiento(TratamientoUpdateRequest payload, int id);
     TratamientoDto getTratamientoById(int id);
     List<TratamientoDto> getAllTratamientos();
     List<TratamientoDto> filterTratamientos(TratamientoFilterRequest payload);

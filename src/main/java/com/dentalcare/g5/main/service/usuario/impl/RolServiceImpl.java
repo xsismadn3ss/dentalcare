@@ -12,9 +12,11 @@ import com.dentalcare.g5.main.repository.usuario.RolPerRepository;
 import com.dentalcare.g5.main.repository.usuario.RolRepository;
 import com.dentalcare.g5.main.service.usuario.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RolServiceImpl implements RolService {
     @Autowired
     private RolMapper rolMapper;

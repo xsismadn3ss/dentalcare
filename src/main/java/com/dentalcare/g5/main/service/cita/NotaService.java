@@ -12,12 +12,11 @@ import java.util.List;
  */
 public interface NotaService {
     NotaDto addNota(NotaCreateRequest payload);
-    NotaDto updateNota(NotaUpdateRequest payload);
+    NotaDto updateNota(NotaUpdateRequest payload, int id);
     NotaDto getNotaById(int id);
     List<NotaDto> getAllNotas();
     List<NotaDto> filterNotas(NotaFilterRequest payload);
     void deleteNota(int id);
-    //List<NotaDto> getNotasByCitaId(int citaId);
 }
 
 

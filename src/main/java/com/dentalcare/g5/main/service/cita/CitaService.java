@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface CitaService {
     CitaDto addCita(CitaCreateRequest payload);
-    CitaDto updateCita(CitaUpdateRequest payload);
+    CitaDto updateCita(CitaUpdateRequest payload, int id);
     CitaDto getCitaById(int id);
     List<CitaDto> getAllCitas();
     List<CitaDto> filterCitas(CitaFilterRequest payload);
