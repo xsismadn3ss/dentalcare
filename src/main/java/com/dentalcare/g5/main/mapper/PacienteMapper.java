@@ -5,10 +5,11 @@ import com.dentalcare.g5.main.model.entity.Paciente;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PacienteMapper {
-    @Mapping(target = "usuario.paciente", ignore = true)
-    @Mapping(target = "usuario.doctor", ignore = true)
     PacienteDto toDto(Paciente paciente);
+    List<PacienteDto> toDto(List<Paciente> pacientes);
     Paciente toEntity(PacienteDto pacienteDto);
 }
