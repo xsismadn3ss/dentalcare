@@ -17,11 +17,5 @@ public class DoctorFilterRequest {
     private Integer id;
     private Integer especialidad_id;
     private Integer usuario_id;
-    
-    // For filtering by usuario attributes
-    private String nombre;
-    private String apellido;
-    private String email;
-    private String telefono;
 }
 

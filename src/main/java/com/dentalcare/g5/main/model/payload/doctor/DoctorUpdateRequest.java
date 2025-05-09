@@ -15,5 +15,7 @@ public class DoctorUpdateRequest {
     private String nombre;
     private String apellido;
     private String telefono;
+    private String no_vigiliancia;
+    private Integer especialidad_id;
 }
 

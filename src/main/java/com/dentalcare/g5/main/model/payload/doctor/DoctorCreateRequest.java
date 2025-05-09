@@ -20,12 +20,17 @@ public class DoctorCreateRequest {
     
     @NotBlank(message = "El teléfono es obligatorio")
     private String telefono;
+
+    @NotBlank(message = "El No. de vigilancia es obligatorio")
+    private String no_vigiliancia;
     
     @NotNull(message = "El ID de la especialidad es obligatorio")
     private Integer especialidad_id;
-    
-    @Valid
+
+    @NotNull(message = "El ID de usuario es obligatorio")
+    private Integer usuario_id;
+    /**@Valid
     @NotNull(message = "La información del usuario es obligatoria")
-    private UsuarioCreateRequest usuario;
+    private UsuarioCreateRequest usuario;**/
 }
 
