@@ -19,6 +19,6 @@ public class UsuarioFilterRequest {
     private String apellido;
     private String email;
     private String telefono;
-    private Integer rolId;
+    private Integer rol_id;
 }
 

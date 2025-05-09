@@ -16,5 +16,6 @@ public class PacienteUpdateRequest {
     private String apellido;
     private String telefono;
     private String direccion;
+    private Integer usuario_id;
 }
 

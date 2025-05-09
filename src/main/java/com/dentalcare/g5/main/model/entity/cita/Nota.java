@@ -21,5 +21,5 @@ public class Nota {
     @ManyToOne
     @JoinColumn(name = "cita_id", referencedColumnName = "id")
     private Cita cita;
-    
+    private Integer cita_id;
 }

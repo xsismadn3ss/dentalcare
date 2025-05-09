@@ -12,11 +12,16 @@ import java.util.List;
  */
 public interface TratamientoService {
     TratamientoDto addTratamiento(TratamientoCreateRequest payload);
-    TratamientoDto updateTratamiento(TratamientoUpdateRequest payload);
+    TratamientoDto updateTratamiento(TratamientoUpdateRequest payload, int id);
     TratamientoDto getTratamientoById(int id);
     List<TratamientoDto> getAllTratamientos();
-    List<TratamientoDto> getTratamientosByCitaId(int citaId);
     List<TratamientoDto> filterTratamientos(TratamientoFilterRequest payload);
     void deleteTratamiento(int id);
+    //List<TratamientoDto> getTratamientosByCitaId(int citaId);
 }
+
+
+
+
+
 

@@ -19,7 +19,7 @@ public class PacienteFilterRequest {
     private Integer id;
     private LocalDate fechaRegistroDesde;
     private LocalDate fechaRegistroHasta;
-    private Integer usuarioId;
+    private Integer usuario_id;
     
     // For filtering by usuario attributes
     private String nombre;

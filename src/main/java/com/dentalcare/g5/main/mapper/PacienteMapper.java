@@ -1,39 +1,15 @@
 package com.dentalcare.g5.main.mapper;
 
-import com.dentalcare.g5.main.mapper.doctor.DoctorMapper;
-import com.dentalcare.g5.main.mapper.usuario.UsuarioMapper;
 import com.dentalcare.g5.main.model.dto.PacienteDto;
-import com.dentalcare.g5.main.model.dto.cita.CitaDto;
 import com.dentalcare.g5.main.model.entity.Paciente;
-import com.dentalcare.g5.main.model.entity.cita.Cita;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {UsuarioMapper.class, DoctorMapper.class})
+@Mapper(componentModel = "spring")
 public interface PacienteMapper {
-    @Mapping(target = "usuario.paciente", ignore = true)
-    @Mapping(target = "usuario.doctor", ignore = true)
-    @Mapping(target = "citas", qualifiedByName = "mapPacienteCitasSimple")  // Cambiado el nombre aquí
     PacienteDto toDto(Paciente paciente);
-
+    List<PacienteDto> toDto(List<Paciente> pacientes);
     Paciente toEntity(PacienteDto pacienteDto);
-
-    @Named("mapPacienteCitasSimple")  // Nombre único para este mapper
-    static List<CitaDto> mapPacienteCitasSimple(List<Cita> citas) {
-        return citas.stream()
-                .map(cita -> new CitaDto(
-                        cita.getId(),
-                        cita.getFecha(),
-                        cita.getHora(),
-                        cita.getMotivo(),
-                        null,
-                        null,
-                        null,
-                        null
-                )).collect(Collectors.toList());
-    }
 }

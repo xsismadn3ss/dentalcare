@@ -1,259 +1,134 @@
 package com.dentalcare.g5.main.service.usuario.impl;
 
+import com.dentalcare.g5.main.mapper.PacienteMapper;
+import com.dentalcare.g5.main.mapper.doctor.DoctorMapper;
+import com.dentalcare.g5.main.mapper.usuario.RolMapper;
 import com.dentalcare.g5.main.mapper.usuario.UsuarioMapper;
+import com.dentalcare.g5.main.model.dto.PacienteDto;
+import com.dentalcare.g5.main.model.dto.doctor.DoctorDto;
+import com.dentalcare.g5.main.model.dto.usuario.RolDto;
 import com.dentalcare.g5.main.model.dto.usuario.UsuarioDto;
+import com.dentalcare.g5.main.model.entity.Paciente;
+import com.dentalcare.g5.main.model.entity.doctor.Doctor;
+import com.dentalcare.g5.main.model.entity.usuario.Rol;
 import com.dentalcare.g5.main.model.entity.usuario.Usuario;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioCreateRequest;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioFilterRequest;
+import com.dentalcare.g5.main.model.payload.usuario.UsuarioUpdateRequest;
+import com.dentalcare.g5.main.repository.PacienteRepository;
+import com.dentalcare.g5.main.repository.doctor.DoctorRepository;
 import com.dentalcare.g5.main.repository.usuario.RolRepository;
 import com.dentalcare.g5.main.repository.usuario.UsuarioRepository;
 import com.dentalcare.g5.main.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-/**
- * Implementation of the UsuarioService interface
- */
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
-
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private RolRepository rolRepository;
-    @Autowired
     private UsuarioMapper usuarioMapper;
 
-    /**
-     * Creates a new usuario
-     * @param payload The usuario creation request
-     * @return The created usuario DTO
-     */
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private DoctorMapper doctorMapper;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+    @Autowired
+    private PacienteMapper pacienteMapper;
+
+    @Autowired
+    private RolRepository rolRepository;
+    @Autowired
+    private RolMapper rolMapper;
+
     @Override
-    @Transactional
-    public UsuarioDto addUsuario(UsuarioCreateRequest payload) {
-        // Check for unique constraints: username, email, telefono
-        validateUniqueConstraints(null, payload.getEmail(), payload.getTelefono());
-        
-        try {
-            // Create new usuario entity
-            Usuario usuario = Usuario.builder()
-                    .nombre(payload.getNombre())
-                    .apellido(payload.getApellido())
-                    .email(payload.getEmail())
-                    .telefono(payload.getTelefono())
-                    // Assuming these fields exist in the entity based on UsuarioCreateRequest
-                    //.username(payload.getUsername())
-                    //.password(payload.getPassword()) // In production, this would be encrypted
-                    .build();
-            
-            // By default, assign a basic role if available
-            //Optional<Rol> defaultRol = rolRepository.findBy("USER");
-            //defaultRol.ifPresent(usuario::setRol);
-            
-            // Save the entity and return mapped DTO
-            Usuario savedUsuario = usuarioRepository.save(usuario);
-            return usuarioMapper.toDto(savedUsuario);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Could not create usuario due to a constraint violation. Check uniqueness of email, username and telefono.", e);
-        }
+    public UsuarioDto addUser(UsuarioCreateRequest payload) {
+        Usuario usuario = new Usuario();
+        usuario.setNombre(payload.getNombre());
+        usuario.setEmail(payload.getEmail());
+        usuario.setPassword(payload.getPassword());
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(savedUsuario);
     }
 
-    /**
-     * Updates an existing usuario
-     * @param usuarioDto The usuario DTO with updated data
-     * @return The updated usuario DTO
-     */
     @Override
-    @Transactional
-    public UsuarioDto updateUsuario(UsuarioDto usuarioDto) {
-        // Find the usuario by ID
-        Usuario existingUsuario = usuarioRepository.findById(usuarioDto.getId())
-                .orElseThrow(() -> new RuntimeException("Usuario not found with ID: " + usuarioDto.getId()));
-        
-        // Check unique constraints but exclude current usuario
-        // Assuming these fields exist in the entity
-        validateUniqueConstraints(
-            usuarioDto.getId(),
-            usuarioDto.getEmail(), 
-            usuarioDto.getTelefono()
-        );
-        
-        try {
-            // Update fields
-            existingUsuario.setNombre(usuarioDto.getNombre());
-            existingUsuario.setApellido(usuarioDto.getApellido());
-            existingUsuario.setEmail(usuarioDto.getEmail());
-            existingUsuario.setTelefono(usuarioDto.getTelefono());
-            // Assuming these fields exist in the entity
-            //existingUsuario.setUsername(usuarioDto.getUsername());
-            
-            // Only update password if provided
-            /*if (usuarioDto.getPassword() != null && !usuarioDto.getPassword().isEmpty()) {
-                existingUsuario.setPassword(usuarioDto.getPassword()); // In production, this would be encrypted
-            }*/
-            
-            // Update role if provided
-            /*if (usuarioDto.getRol() != null && usuarioDto.getRol().getId() != null) {
-                Rol rol = rolRepository.findById(usuarioDto.getRol().getId())
-                        .orElseThrow(() -> new RuntimeException("Rol not found with ID: " + usuarioDto.getRol().getId()));
-                existingUsuario.setRol(rol);
-            }*/
-            
-            // Save updated entity and return mapped DTO
-            Usuario updatedUsuario = usuarioRepository.save(existingUsuario);
-            return usuarioMapper.toDto(updatedUsuario);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Could not update usuario due to a constraint violation. Check uniqueness of email, username and telefono.", e);
-        }
-    }
-
-    /**
-     * Retrieves a usuario by ID
-     * @param id The usuario ID
-     * @return The usuario DTO
-     */
-    @Override
-    public UsuarioDto getUsuarioById(int id) {
+    public UsuarioDto updateUser(UsuarioUpdateRequest payload, Integer id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario not found with ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.setNombre(payload.getNombre());
+        usuario.setEmail(payload.getEmail());
+        usuario.setPassword(payload.getPassword());
+        Usuario updatedUsuario = usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(updatedUsuario);
+    }
+
+    @Override
+    public UsuarioDto getUserById(int id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return usuarioMapper.toDto(usuario);
     }
 
-    /**
-     * Retrieves all usuarios
-     * @return List of all usuario DTOs
-     */
     @Override
-    public List<UsuarioDto> getAllUsuarios() {
+    public List<UsuarioDto> getAllUsers() {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        return usuarios.stream()
-                .map(usuarioMapper::toDto)
-                .collect(Collectors.toList());
+        return usuarioMapper.toDtoList(usuarios);
     }
 
-    /**
-     * Filters usuarios based on criteria in the payload
-     * @param payload Filter criteria
-     * @return List of filtered usuario DTOs
-     */
     @Override
-    public List<UsuarioDto> filterUsuarios(UsuarioFilterRequest payload) {
-        // In a real implementation, this would use JPA Specification or Criteria API
-        // For simplicity, we'll fetch all and filter in memory
-        List<Usuario> allUsuarios = usuarioRepository.findAll();
-        
-        List<Usuario> filteredUsuarios = allUsuarios.stream()
+    public List<UsuarioDto> filterUsers(UsuarioFilterRequest payload, Integer id) {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<Usuario> filteredUsuarios = usuarios.stream()
                 .filter(usuario -> {
-                    // ID filter
+                    // Filtro por ID
                     if (payload.getId() != null && !payload.getId().equals(usuario.getId())) {
                         return false;
                     }
-                    
-                    // Nombre filter
-                    if (payload.getNombre() != null && (usuario.getNombre() == null || 
-                            !usuario.getNombre().toLowerCase().contains(payload.getNombre().toLowerCase()))) {
+                    // Filtro por nombre
+                    if (payload.getNombre() != null && !usuario.getNombre().toLowerCase().contains(payload.getNombre().toLowerCase())) {
                         return false;
                     }
-                    
-                    // Apellido filter
-                    if (payload.getApellido() != null && (usuario.getApellido() == null || 
-                            !usuario.getApellido().toLowerCase().contains(payload.getApellido().toLowerCase()))) {
-                        return false;
-                    }
-                    
-                    // Email filter
-                    if (payload.getEmail() != null && (usuario.getEmail() == null || 
-                            !usuario.getEmail().toLowerCase().contains(payload.getEmail().toLowerCase()))) {
-                        return false;
-                    }
-                    
-                    // Telefono filter
-                    if (payload.getTelefono() != null && (usuario.getTelefono() == null || 
-                            !usuario.getTelefono().toLowerCase().contains(payload.getTelefono().toLowerCase()))) {
-                        return false;
-                    }
-                    
-                    // Rol ID filter
-                    return payload.getRolId() == null || (usuario.getRol() != null &&
-                            payload.getRolId().equals(usuario.getRol().getId()));
+                    // Filtro por email
+                    return payload.getEmail() == null || 
+                           usuario.getEmail().toLowerCase().contains(payload.getEmail().toLowerCase());
                 })
                 .toList();
-        
-        return filteredUsuarios.stream()
-                .map(usuarioMapper::toDto)
-                .collect(Collectors.toList());
+        return usuarioMapper.toDtoList(filteredUsuarios);
     }
 
-    /**
-     * Deletes a usuario by ID
-     * @param id The usuario ID to delete
-     */
     @Override
-    @Transactional
-    public void deleteUsuario(int id) {
+    public void deleteUser(int id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario not found with ID: " + id));
-        
-        // Check if this user has associated entities before deletion
-        if (usuario.getDoctor() != null || usuario.getPaciente() != null) {
-            throw new RuntimeException("Cannot delete usuario because it is associated with a doctor or paciente record");
-        }
-        
-        try {
-            usuarioRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Cannot delete usuario due to existing relationships", e);
-        }
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuarioRepository.delete(usuario);
     }
-    
-    /**
-     * Validates unique constraints for usuario fields
-     */
-    private void validateUniqueConstraints(Integer currentId, String email, String telefono) {
-        List<Usuario> existingUsuarios = usuarioRepository.findAll();
-        
-        // Check email uniqueness
-        if (email != null) {
-            Optional<Usuario> emailExists = existingUsuarios.stream()
-                    .filter(u -> email.equalsIgnoreCase(u.getEmail()) && 
-                            (currentId == null || !currentId.equals(u.getId())))
-                    .findFirst();
-            
-            if (emailExists.isPresent()) {
-                throw new RuntimeException("Email '" + email + "' is already in use");
-            }
-        }
-        
-        // Check telefono uniqueness
-        if (telefono != null) {
-            Optional<Usuario> telefonoExists = existingUsuarios.stream()
-                    .filter(u -> telefono.equals(u.getTelefono()) && 
-                            (currentId == null || !currentId.equals(u.getId())))
-                    .findFirst();
-            
-            if (telefonoExists.isPresent()) {
-                throw new RuntimeException("Telefono '" + telefono + "' is already in use");
-            }
-        }
-        
-        // Check username uniqueness
-        /*if (username != null) {
-            Optional<Usuario> usernameExists = existingUsuarios.stream()
-                    .filter(u -> username.equalsIgnoreCase(u.getUsername()) && 
-                            (currentId == null || !currentId.equals(u.getId())))
-                    .findFirst();
-            
-            if (usernameExists.isPresent()) {
-                throw new RuntimeException("Username '" + username + "' is already in use");
-            }
-        }*/
+
+    @Override
+    public PacienteDto joinPaciente(int id) {
+        Paciente paciente = pacienteRepository.findByUsuarioId(id)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+        return pacienteMapper.toDto(paciente);
+    }
+
+    @Override
+    public DoctorDto joinDoctor(int id) {
+        Doctor doctor = doctorRepository.findByUsuarioId(id)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+        return doctorMapper.toDto(doctor);
+    }
+
+    @Override
+    public RolDto joinRol(int id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Rol rol = rolRepository.findById(usuario.getRol().getId())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+        return rolMapper.toDto(rol);
     }
 }
-

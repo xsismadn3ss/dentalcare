@@ -23,8 +23,6 @@ public class PacienteCreateRequest {
     
     private String direccion;
     
-    @Valid
-    @NotNull(message = "La información del usuario es obligatoria")
-    private UsuarioCreateRequest usuario;
+    private Integer usuario_id;
 }
 

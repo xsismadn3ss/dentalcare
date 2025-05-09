@@ -18,12 +18,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CitaFilterRequest {
     private Integer id;
-    private LocalDate fechaDesde;
-    private LocalDate fechaHasta;
-    private Time horaDesde;
-    private Time horaHasta;
+    private LocalDate fecha;
+    private Time hora;
     private String motivo;
-    private Integer doctorId;
-    private Integer pacienteId;
+    private Integer doctor_id;
+    private Integer paciente_id;
 }
 

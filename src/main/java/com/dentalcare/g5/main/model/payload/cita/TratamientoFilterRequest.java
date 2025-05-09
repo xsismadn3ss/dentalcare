@@ -17,6 +17,6 @@ public class TratamientoFilterRequest {
     private Integer id;
     private String nombre;
     private Boolean pendiente;
-    private Integer citaId;
+    private Integer cita_id;
 }
 

@@ -21,9 +21,9 @@ public class CitaCreateRequest {
     private String motivo;
     
     @NotNull(message = "El ID del paciente es obligatorio")
-    private Integer pacienteId;
+    private Integer paciente_id;
     
     @NotNull(message = "El ID del doctor es obligatorio")
-    private Integer doctorId;
+    private Integer doctor_id;
 }
 

@@ -1,6 +1,4 @@
 package com.dentalcare.g5.main.model.dto.cita;
-
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +10,5 @@ public class NotaDto {
     private Integer id;
     private  String titulo;
     private String descripcion;
-    // private  CitaDto cita;  (REDUNDANCIA)
+    private Integer cita_id;
 }

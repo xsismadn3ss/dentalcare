@@ -19,9 +19,7 @@ public class CitaDto {
     private LocalDate fecha;
     private Time hora;
     private String motivo;
-    private DoctorDto doctor;
-    private PacienteDto paciente;
-    private List<NotaDto> notas;
-    private List<TratamientoDto> tratamientos;
+    private Integer doctor_id;
+    private Integer paciente_id;
 }
 

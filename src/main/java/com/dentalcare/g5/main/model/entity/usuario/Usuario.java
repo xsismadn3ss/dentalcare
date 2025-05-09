@@ -27,6 +27,9 @@ public class Usuario {
     @Column(unique = true)
     private String telefono;
 
+    private String username;
+    private String password;
+
     @OneToOne()
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Rol rol;
