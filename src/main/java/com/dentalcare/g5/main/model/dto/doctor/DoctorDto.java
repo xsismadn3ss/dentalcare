@@ -16,4 +16,5 @@ public class DoctorDto {
     private EspecialidadDto especialidad;
     private Integer usuario_id;
     private Integer especialidad_dto;
+    private String no_vigiliancia;
 }
