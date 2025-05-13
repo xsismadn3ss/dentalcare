@@ -23,7 +23,4 @@ public class RolPermiso {
     @ManyToOne
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
-
-    private Integer permiso_id;
-    private Integer rol_id;
 }

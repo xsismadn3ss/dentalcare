@@ -27,7 +27,6 @@ public class Paciente {
     @OneToOne()
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
-    private Integer usuario_id;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cita> citas = new ArrayList<>();

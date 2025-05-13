@@ -30,12 +30,10 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
-    private Integer doctor_id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
-    private Integer paciente_id;
 
     @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL)
     private List<Nota> notas = new ArrayList<>();

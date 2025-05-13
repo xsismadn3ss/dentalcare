@@ -27,12 +27,10 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name = "especialidad_id", nullable = false)
     private Especialidad especialidad;
-    private Integer especialidad_id;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
-    private Integer usuario_id;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cita> citas = new ArrayList<>();
