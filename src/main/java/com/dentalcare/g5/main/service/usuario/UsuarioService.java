@@ -22,6 +22,6 @@ public interface UsuarioService {
     void deleteUser(int id);
     PacienteDto joinPaciente(int id);
     DoctorDto joinDoctor(int id);
-    RolDto joinRol(int id);
+    RolDto joinRol(int usuario_id);
 }
 

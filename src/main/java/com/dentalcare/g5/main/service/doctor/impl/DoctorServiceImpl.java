@@ -15,11 +15,15 @@ import com.dentalcare.g5.main.model.payload.doctor.DoctorUpdateRequest;
 import com.dentalcare.g5.main.repository.doctor.DoctorRepository;
 import com.dentalcare.g5.main.repository.cita.CitaRepository;
 import com.dentalcare.g5.main.repository.doctor.EspecialidadRepository;
+import com.dentalcare.g5.main.service.cita.CitaService;
 import com.dentalcare.g5.main.service.doctor.DoctorService;
+import com.dentalcare.g5.main.service.doctor.EspecialidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -28,24 +32,16 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private DoctorMapper doctorMapper;
     @Autowired
+    private EspecialidadMapper especialidadMapper;
+    @Autowired
     private CitaRepository citaRepository;
     @Autowired
     private CitaMapper citaMapper;
-    @Autowired
-    private EspecialidadRepository especialidadRepository;
-    @Autowired
-    private EspecialidadMapper especialidadMapper;
 
     @Override
     public DoctorDto addDoctor(DoctorCreateRequest payload) {
-        Doctor doctor = new Doctor(
-                null,
-                payload.getNo_vigiliancia(),
-                null,
-                payload.getEspecialidad_id(),
-                null,
-                payload.getUsuario_id(),
-                null);
+        Doctor doctor = new Doctor();
+        doctor.setNo_vigiliancia(payload.getNo_vigiliancia());
         Doctor savedDoctor = doctorRepository.save(doctor);
         return doctorMapper.toDto(savedDoctor);
     }
@@ -56,8 +52,6 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
 
         doctor.setNo_vigiliancia(payload.getNo_vigiliancia());
-        doctor.setEspecialidad_id(payload.getEspecialidad_id());
-
         Doctor doctor_updated = doctorRepository.save(doctor);
         return doctorMapper.toDto(doctor_updated);
     }
@@ -88,13 +82,13 @@ public class DoctorServiceImpl implements DoctorService {
                 
                 // Filtro por especialidad_id
                 if (payload.getEspecialidad_id() != null && 
-                    !payload.getEspecialidad_id().equals(doctor.getEspecialidad_id())) {
+                    !payload.getEspecialidad_id().equals(doctor.getEspecialidad().getId())) {
                     return false;
                 }
                 
                 // Filtro por usuario_id
                 if (payload.getUsuario_id() != null && 
-                    !payload.getUsuario_id().equals(doctor.getUsuario_id())) {
+                    !payload.getUsuario_id().equals(doctor.getUsuario().getId())) {
                     return false;
                 }
                 return true;
@@ -108,14 +102,15 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public EspecialidadDto joinEspecialidad(int id) {
-        Especialidad especialidad = especialidadRepository.getByUsuarioId(id);
+    public EspecialidadDto joinEspecialidad(int doctorId) {
+        Doctor doctor = doctorMapper.toEntity(this.getDoctorById(doctorId));
+        Especialidad especialidad = doctor.getEspecialidad();
         return especialidadMapper.toDto(especialidad);
     }
 
     @Override
     public List<CitaDto> joinCitas(int id) {
-        List<Cita> citas = citaRepository.getBysDoctorId(id);
+        List<Cita> citas = citaRepository.getByDoctorId(id);
         return citaMapper.toDtoList(citas);
     }
 }

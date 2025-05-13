@@ -1,12 +1,20 @@
 package com.dentalcare.g5.main.service.usuario.impl;
 
+import com.dentalcare.g5.main.mapper.usuario.PermisoMapper;
+import com.dentalcare.g5.main.mapper.usuario.RolMapper;
 import com.dentalcare.g5.main.mapper.usuario.RolPermisoMapper;
+import com.dentalcare.g5.main.model.dto.usuario.PermisoDto;
+import com.dentalcare.g5.main.model.dto.usuario.RolDto;
 import com.dentalcare.g5.main.model.dto.usuario.RolPermisoDto;
+import com.dentalcare.g5.main.model.entity.usuario.Permiso;
+import com.dentalcare.g5.main.model.entity.usuario.Rol;
 import com.dentalcare.g5.main.model.entity.usuario.RolPermiso;
 import com.dentalcare.g5.main.model.payload.usuario.RolPermisoCreateRequest;
 import com.dentalcare.g5.main.model.payload.usuario.RolPermisoFilterRequest;
 import com.dentalcare.g5.main.repository.usuario.RolPerRepository;
+import com.dentalcare.g5.main.service.usuario.PermisoService;
 import com.dentalcare.g5.main.service.usuario.RolPermisoService;
+import com.dentalcare.g5.main.service.usuario.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +27,31 @@ public class RolPermisoServiceImpl implements RolPermisoService {
     @Autowired
     private RolPermisoMapper rolPermisoMapper;
 
+    @Autowired
+    private PermisoService permisoService;
+    @Autowired
+    private PermisoMapper permisoMapper;
+
+    @Autowired
+    private RolService rolService;
+    @Autowired
+    private RolMapper rolMapper;
+
     @Override
     public RolPermisoDto addRolPer(RolPermisoCreateRequest payload) {
-        RolPermiso rolPermiso = new RolPermiso(null, null, null, payload.getPermiso_id(), payload.getRol_id());
+        RolPermiso rolPermiso = new RolPermiso();
+
+        // obtener permiso
+        PermisoDto permisoDto = permisoService.getPermisoById(payload.getPermiso_id());
+        Permiso permiso = permisoMapper.toEntity(permisoDto);
+
+        // obtener rol
+        RolDto rolDto = rolService.getRolById(payload.getRol_id());
+        Rol rol = rolMapper.toEntity(rolDto);
+
+        rolPermiso.setPermiso(permiso);
+        rolPermiso.setRol(rol);
+
         RolPermiso saved_rolPermiso = rolPerRepository.save(rolPermiso);
         return  rolPermisoMapper.toDto(saved_rolPermiso);
     }
@@ -30,8 +60,18 @@ public class RolPermisoServiceImpl implements RolPermisoService {
     public RolPermisoDto updateRolPer(RolPermisoCreateRequest payload, Integer id) {
         RolPermiso rolPermiso = rolPerRepository.findById(id).orElseThrow(() -> new  RuntimeException("Relación de rol y permiso no encontrado"));
 
-        rolPermiso.setPermiso_id(payload.getPermiso_id());
-        rolPermiso.setRol_id(payload.getRol_id());
+        // obtener permiso
+        PermisoDto permisoDto = permisoService.getPermisoById(payload.getPermiso_id());
+        Permiso permiso = permisoMapper.toEntity(permisoDto);
+
+        // obtener rol
+        RolDto rolDto = rolService.getRolById(payload.getRol_id());
+        Rol rol = rolMapper.toEntity(rolDto);
+
+        rolPermiso.setPermiso(permiso);
+        rolPermiso.setRol(rol);
+
+
         RolPermiso rolPermisoUpdated = rolPerRepository.save(rolPermiso);
         return rolPermisoMapper.toDto(rolPermisoUpdated);
     }
@@ -55,12 +95,12 @@ public class RolPermisoServiceImpl implements RolPermisoService {
         List<RolPermiso> filteredRolPermisos = rolPermisos.stream()
                 .filter(rolPermiso -> {
                     // Filtro por ID de permiso
-                    if (payload.getPermiso_id() != null && !payload.getPermiso_id().equals(rolPermiso.getPermiso_id())) {
+                    if (payload.getPermiso_id() != null && !payload.getPermiso_id().equals(rolPermiso.getRol().getId())) {
                         return false;
                     }
 
                     // Filtro por ID de rol
-                    return payload.getRol_id() == null || payload.getRol_id().equals(rolPermiso.getRol_id());
+                    return payload.getRol_id() == null || payload.getRol_id().equals(rolPermiso.getPermiso().getId());
                 })
                 .toList();
         return rolPermisoMapper.toDtoList(filteredRolPermisos);

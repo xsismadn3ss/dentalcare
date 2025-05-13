@@ -24,7 +24,6 @@ public class NotaServiceImpl implements NotaService {
         Nota nota = new Nota();
         nota.setTitulo(payload.getTitulo());
         nota.setDescripcion(payload.getDescripcion());
-        nota.setCita_id(payload.getCita_id());
         Nota savedNota = notaRepository.save(nota);
         return notaMapper.toDto(savedNota);
     }
@@ -63,7 +62,7 @@ public class NotaServiceImpl implements NotaService {
                     }
                     // Filtro por citaId
                     return payload.getCita_id() == null ||
-                           payload.getCita_id().equals(nota.getCita_id());
+                           payload.getCita_id().equals(nota.getCita().getId());
                 })
                 .toList();
         return notaMapper.toDtoList(filteredNotas);

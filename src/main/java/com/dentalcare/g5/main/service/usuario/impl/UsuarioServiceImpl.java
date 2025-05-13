@@ -19,6 +19,9 @@ import com.dentalcare.g5.main.repository.PacienteRepository;
 import com.dentalcare.g5.main.repository.doctor.DoctorRepository;
 import com.dentalcare.g5.main.repository.usuario.RolRepository;
 import com.dentalcare.g5.main.repository.usuario.UsuarioRepository;
+import com.dentalcare.g5.main.service.doctor.DoctorService;
+import com.dentalcare.g5.main.service.paciente.PacienteService;
+import com.dentalcare.g5.main.service.usuario.RolService;
 import com.dentalcare.g5.main.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,17 +36,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioMapper usuarioMapper;
 
     @Autowired
-    private DoctorRepository doctorRepository;
+    private DoctorService doctorService;
     @Autowired
     private DoctorMapper doctorMapper;
 
     @Autowired
-    private PacienteRepository pacienteRepository;
+    private PacienteService pacienteService;
     @Autowired
     private PacienteMapper pacienteMapper;
 
     @Autowired
-    private RolRepository rolRepository;
+    private RolService rolService;
     @Autowired
     private RolMapper rolMapper;
 
@@ -95,8 +98,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                         return false;
                     }
                     // Filtro por email
-                    return payload.getEmail() == null || 
-                           usuario.getEmail().toLowerCase().contains(payload.getEmail().toLowerCase());
+                    return payload.getEmail() == null ||
+                            usuario.getEmail().toLowerCase().contains(payload.getEmail().toLowerCase());
                 })
                 .toList();
         return usuarioMapper.toDtoList(filteredUsuarios);
@@ -111,24 +114,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public PacienteDto joinPaciente(int id) {
-        Paciente paciente = pacienteRepository.findByUsuarioId(id)
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+        Paciente paciente = pacienteMapper.toEntity(pacienteService.getPacienteById(id));
         return pacienteMapper.toDto(paciente);
     }
 
     @Override
     public DoctorDto joinDoctor(int id) {
-        Doctor doctor = doctorRepository.findByUsuarioId(id)
-                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+        Doctor doctor = doctorMapper.toEntity(doctorService.getDoctorById(id));
         return doctorMapper.toDto(doctor);
     }
 
     @Override
-    public RolDto joinRol(int id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        Rol rol = rolRepository.findById(usuario.getRol().getId())
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-        return rolMapper.toDto(rol);
+    public RolDto joinRol(int usuario_id) {
+        Usuario usuario = usuarioMapper.toEntity(this.getUserById(usuario_id));
+        return rolMapper.toDto(usuario.getRol());
     }
 }

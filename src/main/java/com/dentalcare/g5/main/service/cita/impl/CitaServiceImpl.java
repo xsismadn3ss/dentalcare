@@ -45,8 +45,6 @@ public class CitaServiceImpl implements CitaService {
         cita.setFecha(payload.getFecha());
         cita.setHora(payload.getHora());
         cita.setMotivo(payload.getMotivo());
-        cita.setDoctor_id(payload.getDoctor_id());
-        cita.setPaciente_id(payload.getPaciente_id());
         
         Cita savedCita = citaRepository.save(cita);
         return citaMapper.toDto(savedCita);
@@ -89,15 +87,7 @@ public class CitaServiceImpl implements CitaService {
         List<Cita> citas = citaRepository.findAll();
         
         List<Cita> citasFiltered = citas.stream()
-            .filter(cita -> {
-                if (payload.getDoctor_id() != null && !payload.getDoctor_id().equals(cita.getDoctor_id())) {
-                    return false;
-                }
-                if (payload.getPaciente_id() != null && !payload.getPaciente_id().equals(cita.getPaciente_id())) {
-                    return false;
-                }
-                return payload.getFecha() == null || payload.getFecha().equals(cita.getFecha());
-            }).toList();
+            .filter(cita -> payload.getFecha() == null || payload.getFecha().equals(cita.getFecha())).toList();
         return  citaMapper.toDtoList(citas);
     }
 

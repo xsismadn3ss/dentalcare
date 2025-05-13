@@ -35,7 +35,6 @@ public class PacienteServiceImpl implements PacienteService {
     public PacienteDto addPaciente(PacienteCreateRequest payload) {
         Paciente paciente = new Paciente();
         paciente.setFechaRegistro(LocalDate.now());
-        paciente.setUsuario_id(payload.getUsuario_id());
         Paciente savedPaciente = pacienteRepository.save(paciente);
         return pacienteMapper.toDto(savedPaciente);
     }
@@ -44,7 +43,6 @@ public class PacienteServiceImpl implements PacienteService {
     public PacienteDto updatePaciente(PacienteUpdateRequest payload) {
         Paciente paciente = pacienteRepository.findById(payload.getId())
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
-        paciente.setUsuario_id(payload.getUsuario_id());
         Paciente updatedPaciente = pacienteRepository.save(paciente);
         return pacienteMapper.toDto(updatedPaciente);
     }
@@ -72,7 +70,7 @@ public class PacienteServiceImpl implements PacienteService {
                     if (payload.getId() != null && !payload.getId().equals(paciente.getId())) {
                         return false;
                     }
-                    if (payload.getUsuario_id() != null && !payload.getUsuario_id().equals(paciente.getUsuario_id())) {
+                    if (payload.getUsuario_id() != null && !payload.getUsuario_id().equals(paciente.getUsuario().getId())) {
                         return false;
                     }
                     return true;
@@ -88,8 +86,6 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public List<CitaDto> joinCitas(int id) {
         List<Cita> citas = citaRepository.getByPacienteId(id);
-        return citas.stream()
-                .map(citaMapper::toDto)
-                .collect(Collectors.toList());
+        return citaMapper.toDtoList(citas);
     }
 }
