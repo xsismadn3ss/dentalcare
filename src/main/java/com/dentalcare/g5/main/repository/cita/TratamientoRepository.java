@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TratamientoRepository extends JpaRepository<Tratamiento, Integer> {
-    List<Tratamiento> findByCitaId(int cita_id);
+    List<Tratamiento> findByCitaId(int citaId);
 }

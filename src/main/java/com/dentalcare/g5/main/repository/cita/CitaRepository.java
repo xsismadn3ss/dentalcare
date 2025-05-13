@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
-    List<Cita> getBysDoctorId(int usuario_id);
-    List<Cita> getByPacienteId(int paciente_id);
+    List<Cita> getByDoctorId(Integer doctorId);
+    List<Cita> getByPacienteId(Integer pacienteId);
 }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
-    Optional<Doctor> findByUsuarioId(Integer usuario_id);
+    Optional<Doctor> findByUsuarioId(Integer usuarioId);
 }

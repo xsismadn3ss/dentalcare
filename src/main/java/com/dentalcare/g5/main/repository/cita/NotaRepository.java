@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface NotaRepository extends JpaRepository<Nota, Integer> {
-    List<Nota> findByCitaId(int id);
+    List<Nota> findByCitaId(int citaId);
 }
