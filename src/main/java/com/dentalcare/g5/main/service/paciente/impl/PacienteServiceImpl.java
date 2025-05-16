@@ -12,11 +12,13 @@ import com.dentalcare.g5.main.model.payload.paciente.PacienteUpdateRequest;
 import com.dentalcare.g5.main.repository.PacienteRepository;
 import com.dentalcare.g5.main.repository.cita.CitaRepository;
 import com.dentalcare.g5.main.service.paciente.PacienteService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.time.LocalDate;
 
 @Service
@@ -40,9 +42,9 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public PacienteDto updatePaciente(PacienteUpdateRequest payload) {
-        Paciente paciente = pacienteRepository.findById(payload.getId())
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+    public PacienteDto updatePaciente(PacienteUpdateRequest payload, int id) {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
         Paciente updatedPaciente = pacienteRepository.save(paciente);
         return pacienteMapper.toDto(updatedPaciente);
     }
@@ -50,31 +52,28 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public PacienteDto getPacienteById(int id) {
         Paciente paciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado"));
         return pacienteMapper.toDto(paciente);
     }
 
     @Override
-    public List<PacienteDto> getAllPacientes() {
-        List<Paciente> pacientes = pacienteRepository.findAll();
-        return pacientes.stream()
-                .map(pacienteMapper::toDto)
-                .collect(Collectors.toList());
+    public Page<PacienteDto> getAllPacientes(Pageable pageable) {
+        Page<Paciente> pacientes = pacienteRepository.findAll(pageable);
+        return pacientes.map(pacienteMapper::toDto);
     }
 
     @Override
     public List<PacienteDto> filterPacientes(PacienteFilterRequest payload) {
-        List<Paciente> pacientes = pacienteRepository.findAll();
-        List<Paciente> pacientes_filtered = pacientes.stream()
-                .filter(paciente -> {
-                    if (payload.getId() != null && !payload.getId().equals(paciente.getId())) {
-                        return false;
-                    }
-                    if (payload.getUsuario_id() != null && !payload.getUsuario_id().equals(paciente.getUsuario().getId())) {
-                        return false;
-                    }
-                    return true;
-                }).toList();
+        List<Paciente> pacientes_filtered = pacienteRepository.filterPacientes(
+                payload.getId(),
+                payload.getUsuario_id(),
+                payload.getFechaRegistroDesde(),
+                payload.getFechaRegistroHasta(),
+                payload.getNombre(),
+                payload.getApellido(),
+                payload.getEmail(),
+                payload.getTelefono()
+        );
         return pacienteMapper.toDto(pacientes_filtered);
     }
 
