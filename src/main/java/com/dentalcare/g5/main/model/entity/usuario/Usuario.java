@@ -27,6 +27,7 @@ public class Usuario {
     @Column(unique = true)
     private String telefono;
 
+    @Column(unique = true)
     private String username;
     private String password;
 
