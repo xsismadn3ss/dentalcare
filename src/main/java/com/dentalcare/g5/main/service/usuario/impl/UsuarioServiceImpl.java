@@ -13,6 +13,7 @@ import com.dentalcare.g5.main.model.payload.usuario.UsuarioCreateRequest;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioFilterRequest;
 import com.dentalcare.g5.main.model.payload.usuario.UsuarioUpdateRequest;
 import com.dentalcare.g5.main.repository.usuario.UsuarioRepository;
+import com.dentalcare.g5.main.service.auth.AuthService;
 import com.dentalcare.g5.main.service.usuario.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -34,6 +36,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private PacienteMapper pacienteMapper;
     @Autowired
     private RolMapper rolMapper;
+    @Autowired
+    private AuthService authService;
 
     @Override
     public UsuarioDto addUser(UsuarioCreateRequest payload) {
@@ -43,7 +47,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setTelefono(payload.getTelefono());
         usuario.setUsername(payload.getUsername());
         usuario.setEmail(payload.getEmail());
-        usuario.setPassword(payload.getPassword());
+        String hashedPassword = authService.hashPassword(payload.getPassword());
+        usuario.setPassword(hashedPassword);
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(savedUsuario);
     }
@@ -57,9 +62,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setTelefono(payload.getTelefono());
         usuario.setUsername(payload.getUsername());
         usuario.setEmail(payload.getEmail());
-        usuario.setPassword(payload.getPassword());
+        String hashedPassword = authService.hashPassword(payload.getPassword());
+        usuario.setPassword(hashedPassword);
         Usuario updatedUsuario = usuarioRepository.save(usuario);
-        return usuarioMapper.toDto(updatedUsuario);
+            return usuarioMapper.toDto(updatedUsuario);
     }
 
     @Override
@@ -113,5 +119,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findById(usuario_id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
         return rolMapper.toDto(usuario.getRol());
+    }
+
+    @Override
+    public Boolean authenticate(String username, String password) {
+        Usuario usuario = usuarioRepository.finByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        String hashed_password = authService.hashPassword(password);
+        return Objects.equals(hashed_password, usuario.getPassword());
+    }
+
+    // Nueva implementación
+    @Override
+    public UsuarioDto findByUsername(String username) {
+        Usuario usuario = usuarioRepository.finByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con username: " + username));
+        return usuarioMapper.toDto(usuario);
     }
 }
