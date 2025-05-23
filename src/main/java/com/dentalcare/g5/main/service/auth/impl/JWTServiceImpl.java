@@ -20,9 +20,11 @@ import java.util.function.Function;
 public class JWTServiceImpl implements JWTService {
     // 24 HORAS
     private static final long JWT_EXPIRATION_MS = 1000 * 60 * 60 * 24;
-    // Corrección: JWT_SECRET debe ser una variable de instancia para la inyección de @Value
+
     @Value("${jwt.secret}")
-    private String JWT_SECRET; // Eliminado 'static'
+    private String JWT_SECRET;
+
+    private static final long RENEWAL_THRESHOLD_MS = 1000 * 60 * 30;
 
     @Override
     public String extractUsername(String token) {
@@ -75,4 +77,12 @@ public class JWTServiceImpl implements JWTService {
         final String username = extractUsername(token);
         return (username.equals(userData.getUsername())) && !isTokenExpired(token);
     }
+
+    @Override
+    public boolean isTokenNearingExpiration(String jwt) {
+        final Date expirationDate = extractExpiration(jwt);
+        long timeLeft = expirationDate.getTime() - System.currentTimeMillis();
+        return  timeLeft > 0 && timeLeft < RENEWAL_THRESHOLD_MS;
+    }
 }
+    

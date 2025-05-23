@@ -45,4 +45,6 @@ public interface JWTService {
      * @return true si el token es válido, false en caso contrario
      */
     Boolean validateToken(String token, UsuarioDto userData);
+
+    boolean isTokenNearingExpiration(String jwt);
 }
