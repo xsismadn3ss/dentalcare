@@ -26,5 +26,7 @@ public interface UsuarioService {
     PacienteDto joinPaciente(int id);
     DoctorDto joinDoctor(int id);
     RolDto joinRol(int usuario_id);
+    Boolean authenticate(String username, String password);
+    UsuarioDto findByUsername(String username); // Nuevo método
 }
 
