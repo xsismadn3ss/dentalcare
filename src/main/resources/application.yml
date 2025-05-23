@@ -16,3 +16,6 @@ server:
   port: ${PORT}
   base: g5/api
   version: v1
+
+jwt:
+  secret: ${JWT_SECRET}
