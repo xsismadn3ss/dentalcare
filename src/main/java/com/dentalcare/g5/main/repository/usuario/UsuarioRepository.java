@@ -23,5 +23,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
                                  @Param("telefono") String telefono,
                                  @Param("rol_id") Integer rol_id);
 
-    Optional<Usuario> finByUsername(String username);
+    Optional<Usuario> findByUsername(String username);
 }
