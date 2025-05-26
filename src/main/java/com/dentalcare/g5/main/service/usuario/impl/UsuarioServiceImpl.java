@@ -123,7 +123,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Boolean authenticate(String username, String password) {
-        Usuario usuario = usuarioRepository.finByUsername(username)
+        Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
         String hashed_password = authService.hashPassword(password);
@@ -133,7 +133,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     // Nueva implementación
     @Override
     public UsuarioDto findByUsername(String username) {
-        Usuario usuario = usuarioRepository.finByUsername(username)
+        Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con username: " + username));
         return usuarioMapper.toDto(usuario);
     }
