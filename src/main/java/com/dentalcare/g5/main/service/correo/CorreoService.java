@@ -1,5 +1,7 @@
 package com.dentalcare.g5.main.service.correo;
 
+import com.dentalcare.g5.main.dto.CorreoErrorDto;
+
 public interface CorreoService {
-    void enviarCorreo(String mensaje);
+    void enviarCorreoError(CorreoErrorDto mensaje);
 }
