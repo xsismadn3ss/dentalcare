@@ -12,7 +12,7 @@ spring:
       ddl-auto: update
     show-sql: true
 
-  email:
+  mail:
     host: smt.gmail.com
     port: 587
     username: ${EMAIL}
