@@ -13,7 +13,7 @@ spring:
     show-sql: true
 
   mail:
-    host: smt.gmail.com
+    host: smtp.gmail.com
     port: 587
     username: ${EMAIL}
     password: ${EMAIL_PASSWORD}
@@ -32,3 +32,7 @@ server:
 
 jwt:
   secret: ${JWT_SECRET}
+
+my:
+  template:
+    default: error.ftlh
