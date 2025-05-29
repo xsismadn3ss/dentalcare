@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ErrorTestController {
     @GetMapping("/error")
     public void throeError(){
-        throw new RuntimeException("Test Exception");
+        throw new RuntimeException("Esta es una excepción de prueba");
     }
 }
