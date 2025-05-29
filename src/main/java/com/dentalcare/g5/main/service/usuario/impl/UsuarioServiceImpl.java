@@ -16,6 +16,7 @@ import com.dentalcare.g5.main.repository.usuario.UsuarioRepository;
 import com.dentalcare.g5.main.service.auth.AuthService;
 import com.dentalcare.g5.main.service.usuario.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
