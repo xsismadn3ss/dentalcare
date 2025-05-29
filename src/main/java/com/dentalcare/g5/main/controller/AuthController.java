@@ -1,5 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
+import com.dentalcare.g5.main.annotation.NotificarErrores;
 import com.dentalcare.g5.main.model.dto.usuario.UsuarioDto;
 import com.dentalcare.g5.main.model.payload.auth.LoginRequest;
 import com.dentalcare.g5.main.model.payload.auth.LoginResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@NotificarErrores
 @RequestMapping("${server.base}/${server.version}/auth")
 public class AuthController {
     @Autowired

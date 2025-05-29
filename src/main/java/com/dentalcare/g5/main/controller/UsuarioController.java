@@ -1,5 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
+import com.dentalcare.g5.main.annotation.NotificarErrores;
 import com.dentalcare.g5.main.model.dto.PacienteDto;
 import com.dentalcare.g5.main.model.dto.doctor.DoctorDto;
 import com.dentalcare.g5.main.model.dto.usuario.RolDto;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@NotificarErrores
 @RequestMapping("${server.base}/${server.version}/usuario")
 public class UsuarioController {
     @Autowired

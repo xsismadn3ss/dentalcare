@@ -1,5 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
+import com.dentalcare.g5.main.annotation.NotificarErrores;
 import com.dentalcare.g5.main.model.dto.usuario.RolDto;
 import com.dentalcare.g5.main.model.dto.usuario.RolPermisoDto;
 import com.dentalcare.g5.main.model.payload.usuario.RolCreateRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@NotificarErrores
 @RequestMapping("/api")
 public class RolController {
 

@@ -1,5 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
+import com.dentalcare.g5.main.annotation.NotificarErrores;
 import com.dentalcare.g5.main.model.dto.PacienteDto;
 import com.dentalcare.g5.main.model.dto.cita.CitaDto;
 import com.dentalcare.g5.main.model.payload.paciente.PacienteCreateRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@NotificarErrores
 @RequestMapping("${server.base}/${server.version}/paciente")
 public class PacienteController {
     @Autowired

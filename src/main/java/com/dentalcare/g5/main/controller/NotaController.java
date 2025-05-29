@@ -1,5 +1,6 @@
 package com.dentalcare.g5.main.controller;
 
+import com.dentalcare.g5.main.annotation.NotificarErrores;
 import com.dentalcare.g5.main.model.dto.cita.NotaDto;
 import com.dentalcare.g5.main.model.payload.cita.NotaCreateRequest;
 import com.dentalcare.g5.main.model.payload.cita.NotaFilterRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@NotificarErrores
 @RequestMapping("/api")
 public class NotaController {
 
