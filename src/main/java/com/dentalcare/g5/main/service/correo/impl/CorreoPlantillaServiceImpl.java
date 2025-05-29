@@ -19,7 +19,7 @@ public class CorreoPlantillaServieImpl implements CorreoPlantillaService {
 
     private final Configuration freemarkerConfiguration;
 
-    @Value("${my.templade.default")
+    @Value("${my.template.default}")
     String templateDefault;
 
 
