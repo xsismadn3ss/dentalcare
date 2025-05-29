@@ -30,7 +30,8 @@ public class GlobalExceptionHandler {
 
         String plantilla = correoPlantillaService.crearPlantillaError(
                 ex.getClass().getSimpleName(),
-                ex.getMessage() + "ubicación:" + ex.getStackTrace()[0].getFileName() + " linea:" + ex.getStackTrace()[0].getLineNumber(),
+                ex.getMessage(),
+                ex.getStackTrace()[0].getFileName() + " linea:" + ex.getStackTrace()[0].getLineNumber(),
                 request.getRequestURL().toString()
         );
 
