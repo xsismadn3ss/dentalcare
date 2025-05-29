@@ -25,12 +25,13 @@ public class CorreoPlantillaServiceImpl implements CorreoPlantillaService {
     }
 
     @Override
-    public String crearPlantillaError(String error_name, String details, String url) {
+    public String crearPlantillaError(String error_name, String details, String ubicacion, String url) {
         try {
             Template template = freemarkerConfiguration.getTemplate(templateDefault);
             Map<String, Object> data = new HashMap<>();
             data.put("error_name", error_name != null ? error_name : "Error Desconocido");
             data.put("details", details != null ? details : "Sin detalles disponibles");
+            data.put("ubicacion", ubicacion != null ? ubicacion: "No localizado");
             data.put("url", url != null ? url : "URL Desconocida");
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
         } catch (Exception e) {
