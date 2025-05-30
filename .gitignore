@@ -38,3 +38,4 @@ out/
 
 ### Trae ###
 .trae
+application-*.yml
