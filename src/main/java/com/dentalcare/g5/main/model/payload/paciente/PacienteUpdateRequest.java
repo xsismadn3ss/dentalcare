@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PacienteUpdateRequest {
-    @NotNull(message = "El ID del paciente es obligatorio")
-    private Integer id;
+//    @NotNull(message = "El ID del paciente es obligatorio")
+//    private Integer id;
     
     private String nombre;
     private String apellido;

@@ -6,21 +6,25 @@ import com.dentalcare.g5.main.mapper.cita.TratamientoMapper;
 import com.dentalcare.g5.main.model.dto.cita.CitaDto;
 import com.dentalcare.g5.main.model.dto.cita.NotaDto;
 import com.dentalcare.g5.main.model.dto.cita.TratamientoDto;
+import com.dentalcare.g5.main.model.entity.Paciente;
 import com.dentalcare.g5.main.model.entity.cita.Cita;
 import com.dentalcare.g5.main.model.entity.cita.Nota;
 import com.dentalcare.g5.main.model.entity.cita.Tratamiento;
+import com.dentalcare.g5.main.model.entity.doctor.Doctor;
 import com.dentalcare.g5.main.model.payload.cita.CitaCreateRequest;
 import com.dentalcare.g5.main.model.payload.cita.CitaFilterRequest;
 import com.dentalcare.g5.main.model.payload.cita.CitaUpdateRequest;
+import com.dentalcare.g5.main.repository.PacienteRepository;
 import com.dentalcare.g5.main.repository.cita.CitaRepository;
 import com.dentalcare.g5.main.repository.cita.NotaRepository;
 import com.dentalcare.g5.main.repository.cita.TratamientoRepository;
+import com.dentalcare.g5.main.repository.doctor.DoctorRepository;
 import com.dentalcare.g5.main.service.cita.CitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class CitaServiceImpl implements CitaService {
@@ -39,6 +43,11 @@ public class CitaServiceImpl implements CitaService {
     @Autowired
     private NotaMapper notaMapper;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
     @Override
     public CitaDto addCita(CitaCreateRequest payload) {
         Cita cita = new Cita();
@@ -46,6 +55,16 @@ public class CitaServiceImpl implements CitaService {
         cita.setHora(payload.getHora());
         cita.setMotivo(payload.getMotivo());
         
+        // Fetch and set Doctor
+        Doctor doctor = doctorRepository.findById(payload.getDoctor_id())
+            .orElseThrow(() -> new RuntimeException("El doctor con ID " + payload.getDoctor_id() + " no existe"));
+        cita.setDoctor(doctor);
+    
+        // Fetch and set Paciente
+        Paciente paciente = pacienteRepository.findById(payload.getPaciente_id())
+            .orElseThrow(() -> new RuntimeException("Paciente not found"));
+        cita.setPaciente(paciente);
+    
         Cita savedCita = citaRepository.save(cita);
         return citaMapper.toDto(savedCita);
     }

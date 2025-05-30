@@ -12,7 +12,7 @@ public class UsuarioUpdateRequest {
     @Nullable
     private String nombre;
     @Nullable
-    private String apellida;
+    private String apellido;
     @Nullable
     private String username;
     @Nullable

@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoctorUpdateRequest {
-    @NotNull(message = "El ID del doctor es obligatorio")
-    private Integer id;
-    
     private String nombre;
     private String apellido;
     private String telefono;
