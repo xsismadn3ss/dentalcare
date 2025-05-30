@@ -19,7 +19,7 @@ public class SecurityConfig {
     @Autowired
     private JWTAuthenticationFilter jwtAuthenticationFilter;
 
-    @Value("/${server.base}/${server.version}")
+    @Value("${server.base}/${server.version}")
     private String path_prefix;
 
     @Bean
